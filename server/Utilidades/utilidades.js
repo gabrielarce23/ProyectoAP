@@ -68,7 +68,7 @@ const enviarReporteBatch = async(reporte)=>{
             type: "OAuth2",
             user: "appcei.2018@gmail.com",
             clientId: mailingCredentials.client_id,
-            clientSecret: mailingCredentials.client_secret,
+            clientSecret: mailingCredentials.secret_id,
             refreshToken: mailingCredentials.refresh_token,
             accessToken: accessToken
         }
@@ -103,7 +103,7 @@ const enviarCorreoAlta = async (usuario) => {
     );
 
     oauth2Client.setCredentials({
-        refresh_token: mailCredentials.refresh_token
+        refresh_token: mailingCredentials.refresh_token
     });
     const tokens = await oauth2Client.refreshAccessToken()
     const accessToken = tokens.credentials.access_token
@@ -116,7 +116,7 @@ const enviarCorreoAlta = async (usuario) => {
             type: "OAuth2",
             user: "appcei.2018@gmail.com",
             clientId: mailingCredentials.client_id,
-            clientSecret: mailingCredentials.client_secret,
+            clientSecret: mailingCredentials.secret_id,
             refreshToken: mailingCredentials.refresh_token,
             accessToken: accessToken
         }
@@ -189,7 +189,7 @@ const enviarCorreoNotificacion = async (usuario, asunto, cuerpo)=>{
             type: "OAuth2",
             user: "appcei.2018@gmail.com",
             clientId: mailingCredentials.client_id,
-            clientSecret: mailingCredentials.client_secret,
+            clientSecret: mailingCredentials.secret_id,
             refreshToken: mailingCredentials.refresh_token,
             accessToken: accessToken
         }
