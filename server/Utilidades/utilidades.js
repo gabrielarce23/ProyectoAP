@@ -92,12 +92,12 @@ const enviarCorreoAlta = async (usuario) => {
 
     const oauth2Client = new OAuth2(
         '349297601621-s63gdr5v1ms3kb88ahe5r4glaqire5t0.apps.googleusercontent.com',
-        '4k7UuEp__UAjcVfOsVJtZTe0', // Client Secret
+        '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', // Client Secret
         'https://developers.google.com/oauthplayground' // Redirect URL
     );
 
     oauth2Client.setCredentials({
-        refresh_token: '1/1tC904dBJ2cw_-7KUdqe9qroSdRr4Zpz6maMeJEHmQY'
+        refresh_token: '1//04BOfNOgRCQc0CgYIARAAGAQSNwF-L9IrOd3q_N4kS_Z3N3pKyXheUB-T_UtMULDwGGygOFD9zmbsRvGQhEqha1GuqU3mT74bu6Y'
     });
     const tokens = await oauth2Client.refreshAccessToken()
     const accessToken = tokens.credentials.access_token
@@ -110,8 +110,8 @@ const enviarCorreoAlta = async (usuario) => {
             type: "OAuth2",
             user: "appcei.2018@gmail.com",
             clientId: "349297601621-s63gdr5v1ms3kb88ahe5r4glaqire5t0.apps.googleusercontent.com",
-            clientSecret: "4k7UuEp__UAjcVfOsVJtZTe0",
-            refreshToken: "1/1tC904dBJ2cw_-7KUdqe9qroSdRr4Zpz6maMeJEHmQY",
+            clientSecret: "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",
+            refreshToken: "1//04BOfNOgRCQc0CgYIARAAGAQSNwF-L9IrOd3q_N4kS_Z3N3pKyXheUB-T_UtMULDwGGygOFD9zmbsRvGQhEqha1GuqU3mT74bu6Y",
             accessToken: accessToken
         }
     });
