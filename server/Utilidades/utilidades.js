@@ -8,6 +8,12 @@ const OAuth2 = google.auth.OAuth2;
 const axios = require('axios')
 const _ = require('lodash')
 
+const mailingCredentials = {
+  client_id: process.env.MAILING_CLIENT_ID,
+  secret_id: process.env.MAILING_SECRET_ID,
+  refresh_token: process.env.MAILING_REFRESH_TOKEN
+}
+
 const validarTipo = async (arrayUsuarios, tipoUsuario) => {
     let usuariosInvalidos = []
     const idTipoUsuario = await Rol.find({ codigo: tipoUsuario })
@@ -43,13 +49,13 @@ const enviarReporteBatch = async(reporte)=>{
     correos = _.uniq(correos)
     console.log(correos)
     const oauth2Client = new OAuth2(
-        '349297601621-s63gdr5v1ms3kb88ahe5r4glaqire5t0.apps.googleusercontent.com',
-        '4k7UuEp__UAjcVfOsVJtZTe0', // Client Secret
+        mailingCredentials.client_id,
+        mailingCredentials.secret_id, // Client Secret
         'https://developers.google.com/oauthplayground' // Redirect URL
     );
 
     oauth2Client.setCredentials({
-        refresh_token: '1/1tC904dBJ2cw_-7KUdqe9qroSdRr4Zpz6maMeJEHmQY'
+        refresh_token: mailingCredentials.refresh_token
     });
     const tokens = await oauth2Client.refreshAccessToken()
     const accessToken = tokens.credentials.access_token
@@ -61,9 +67,9 @@ const enviarReporteBatch = async(reporte)=>{
         auth: {
             type: "OAuth2",
             user: "appcei.2018@gmail.com",
-            clientId: "349297601621-s63gdr5v1ms3kb88ahe5r4glaqire5t0.apps.googleusercontent.com",
-            clientSecret: "4k7UuEp__UAjcVfOsVJtZTe0",
-            refreshToken: "1/1tC904dBJ2cw_-7KUdqe9qroSdRr4Zpz6maMeJEHmQY",
+            clientId: mailingCredentials.client_id,
+            clientSecret: mailingCredentials.client_secret,
+            refreshToken: mailingCredentials.refresh_token,
             accessToken: accessToken
         }
     });
@@ -91,13 +97,13 @@ const enviarReporteBatch = async(reporte)=>{
 const enviarCorreoAlta = async (usuario) => {
 
     const oauth2Client = new OAuth2(
-        '349297601621-s63gdr5v1ms3kb88ahe5r4glaqire5t0.apps.googleusercontent.com',
-        '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', // Client Secret
+        mailingCredentials.client_id,
+        mailingCredentials.secret_id, // Client Secret
         'https://developers.google.com/oauthplayground' // Redirect URL
     );
 
     oauth2Client.setCredentials({
-        refresh_token: '1//04BOfNOgRCQc0CgYIARAAGAQSNwF-L9IrOd3q_N4kS_Z3N3pKyXheUB-T_UtMULDwGGygOFD9zmbsRvGQhEqha1GuqU3mT74bu6Y'
+        refresh_token: mailCredentials.refresh_token
     });
     const tokens = await oauth2Client.refreshAccessToken()
     const accessToken = tokens.credentials.access_token
@@ -109,9 +115,9 @@ const enviarCorreoAlta = async (usuario) => {
         auth: {
             type: "OAuth2",
             user: "appcei.2018@gmail.com",
-            clientId: "349297601621-s63gdr5v1ms3kb88ahe5r4glaqire5t0.apps.googleusercontent.com",
-            clientSecret: "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",
-            refreshToken: "1//04BOfNOgRCQc0CgYIARAAGAQSNwF-L9IrOd3q_N4kS_Z3N3pKyXheUB-T_UtMULDwGGygOFD9zmbsRvGQhEqha1GuqU3mT74bu6Y",
+            clientId: mailingCredentials.client_id,
+            clientSecret: mailingCredentials.client_secret,
+            refreshToken: mailingCredentials.refresh_token,
             accessToken: accessToken
         }
     });
@@ -164,13 +170,13 @@ const enviarCorreoNotificacion = async (usuario, asunto, cuerpo)=>{
     }
     
     const oauth2Client = new OAuth2(
-        '349297601621-s63gdr5v1ms3kb88ahe5r4glaqire5t0.apps.googleusercontent.com',
-        '4k7UuEp__UAjcVfOsVJtZTe0', // Client Secret
+        mailingCredentials.client_id,
+        mailingCredentials.secret_id, // Client Secret
         'https://developers.google.com/oauthplayground' // Redirect URL
     );
 
     oauth2Client.setCredentials({
-        refresh_token: '1/1tC904dBJ2cw_-7KUdqe9qroSdRr4Zpz6maMeJEHmQY'
+        refresh_token: mailingCredentials.refresh_token
     });
     const tokens = await oauth2Client.refreshAccessToken()
     const accessToken = tokens.credentials.access_token
@@ -182,9 +188,9 @@ const enviarCorreoNotificacion = async (usuario, asunto, cuerpo)=>{
         auth: {
             type: "OAuth2",
             user: "appcei.2018@gmail.com",
-            clientId: "349297601621-s63gdr5v1ms3kb88ahe5r4glaqire5t0.apps.googleusercontent.com",
-            clientSecret: "4k7UuEp__UAjcVfOsVJtZTe0",
-            refreshToken: "1/1tC904dBJ2cw_-7KUdqe9qroSdRr4Zpz6maMeJEHmQY",
+            clientId: mailingCredentials.client_id,
+            clientSecret: mailingCredentials.client_secret,
+            refreshToken: mailingCredentials.refresh_token,
             accessToken: accessToken
         }
     });
