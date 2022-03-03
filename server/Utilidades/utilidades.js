@@ -40,14 +40,6 @@ const validarId = async (arrayId) => {
 
 const enviarReporteBatch = async(reporte)=>{
    
-    let categorias = await Categoria.find({}).populate('tesoreros')
-    
-    let correos = []
-    for (cat of categorias){
-        correos = [...correos, ...cat.tesoreros.map((tes)=>{return tes.email})]
-    }
-    correos = _.uniq(correos)
-    console.log(correos)
     const oauth2Client = new OAuth2(
         mailingCredentials.client_id,
         mailingCredentials.secret_id, // Client Secret
@@ -82,7 +74,7 @@ const enviarReporteBatch = async(reporte)=>{
                 
     var mailOptions = {
         from: 'CEI App <appcei.2018@gmail.com>',
-        to: correos,
+        to: 'reportescei@googlegroups.com',
         subject: 'Reporte cobro cuotas',
         html: cuerpo
     };
