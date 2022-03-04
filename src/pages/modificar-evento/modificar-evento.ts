@@ -99,6 +99,7 @@ export class ModificarEventoPage {
         let invitadosIds: any[] = [
           ...this.evento.invitados,
           ...this.evento.confirmados,
+          ...this.evento.duda,
           ...this.evento.noAsisten]
         this.evento.invitados = []
         
