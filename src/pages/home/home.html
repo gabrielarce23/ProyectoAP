@@ -44,10 +44,12 @@
 
                   <p class="nombre-evento">{{evento.nombre}}</p>
                   <p class="fecha-evento">{{getSubtitulo(evento)}}</p>
+                  <p class="fecha-evento">{{evento.lugar.nombre}}</p>
                 </ion-item>
 
 
                 <ion-card-content>
+                  <p [class]="evento.invitados.indexOf(usuario._id) >= 0?'listas mia': 'listas'">Pendientes ({{evento.invitados.length}})</p>
                   <p [class]="evento.confirmados.indexOf(usuario._id) >= 0?'listas mia': 'listas'">Confirmados ({{evento.confirmados.length}})</p>
                   <p [class]="evento.duda.indexOf(usuario._id) >= 0?'listas mia': 'listas'">Duda ({{evento.duda.length}})</p>
                   <p [class]="evento.noAsisten.indexOf(usuario._id) >= 0?'listas mia': 'listas'">No van ({{evento.noAsisten.length}})</p>
