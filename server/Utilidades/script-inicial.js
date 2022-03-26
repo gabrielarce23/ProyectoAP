@@ -139,12 +139,14 @@ const batch = async () => {
     try {
 
         let cronConfig = process.env.HORABATCH? process.env.HORABATCH: '0 2 * * *'
-      
+
+        if(process.env.ACTIVATE_BATCH === 'S') {
+            cron.schedule(cronConfig, cuotasBatch, {
+                scheduled: true,
+                timezone: "America/Montevideo"
+            });
+        }
         // minute hour dom month dow
-        cron.schedule(cronConfig, cuotasBatch, {
-            scheduled: true,
-            timezone: "America/Montevideo"
-        });
 
     } catch (e) {
         console.log(e)
