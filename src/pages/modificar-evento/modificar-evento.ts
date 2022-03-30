@@ -40,7 +40,7 @@ export class ModificarEventoPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private utilService: UtilsServiceProvider, private loader: LoadingController,
-    private platform : Platform,
+    private platform: Platform,
     private eventoService: EventoService, private usuServ: UsuarioService, private catService: CategoriaService,
     private alertCont: AlertController) {
 
@@ -55,8 +55,6 @@ export class ModificarEventoPage {
     })
     try {
 
-
-
       loader.present()
 
       this.categoria._id = this.usuServ.usuario.perfiles[0].categoria
@@ -67,13 +65,13 @@ export class ModificarEventoPage {
         ...dataUsuarios.data.categoria.dts,
         ...dataUsuarios.data.categoria.jugadores,
         ], '_id')
-        this.usuarios = this.usuarios.filter((u)=> u.activo)
+        this.usuarios = this.usuarios.filter((u) => u.activo)
         this.categoria = dataUsuarios.data.categoria
         this.evento.categoria = new Categoria();
-        this.evento.categoria._id= this.categoria._id;
+        this.evento.categoria._id = this.categoria._id;
         this.evento.categoria.nombre = this.categoria.nombre;
-        
-        
+
+
       }
       let dataTipo: any = await this.eventoService.obtenerTipoEventos().toPromise()
       this.tiposEvento = dataTipo.data.tipoEventos
@@ -82,27 +80,27 @@ export class ModificarEventoPage {
       if (!this.navParams.get('evento')) {
         this.diahoratxt = this.utilService.fechahoraToText(this.navParams.get('fecha'))
         this.evento.tipoEvento = this.tiposEvento[0]
-     
+
       } else {
-        this.evento = {...this.navParams.get('evento')}
+        this.evento = { ...this.navParams.get('evento') }
         this.diahoratxt = this.utilService.fechahoraToText(new Date(this.evento.fecha))
         for (let tipo of this.tiposEvento) {
-         
+
           if (tipo._id === this.evento.tipoEvento._id) {
             this.evento.tipoEvento = tipo
-          
+
           }
 
         }
-      
-        
+
+
         let invitadosIds: any[] = [
           ...this.evento.invitados,
           ...this.evento.confirmados,
           ...this.evento.duda,
           ...this.evento.noAsisten]
         this.evento.invitados = []
-        
+
         for (let usu of this.usuarios) {
           if (invitadosIds.indexOf(usu._id) > -1) {
             this.evento.invitados.push(usu)
@@ -113,7 +111,7 @@ export class ModificarEventoPage {
 
       }
 
-
+      this.prepararCargaImagenQR();
 
 
 
@@ -124,6 +122,36 @@ export class ModificarEventoPage {
     }
 
 
+  }
+  prepararCargaImagenQR() {
+    const imageInput = document.querySelector("#imageInput");
+    imageInput.addEventListener("change", function () {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        const uploadedImage = reader.result;
+        localStorage.setItem('imagenQR', uploadedImage.toString());
+        (document.querySelector("#displayImage") as HTMLInputElement).style.backgroundImage = `url(${uploadedImage})`;
+        (document.querySelector("#displayImage") as HTMLInputElement).style.display = "block";
+        (document.querySelector("#iconoCamaraQR") as HTMLInputElement).style.display = "none";
+        (document.querySelector("#borrarImagenQR") as HTMLInputElement).style.display = "block";
+      });
+      if (this.files[0]) {
+        reader.readAsDataURL(this.files[0]);
+        localStorage.removeItem("maxTamImagenQR");
+      }
+      if (this.files[0].size > 250000) { //256Kb
+        localStorage.setItem("maxTamImagenQR", "true");
+      }
+    });
+
+    const borrarImagenQR = document.querySelector("#borrarImagenQR");
+    borrarImagenQR.addEventListener("click", function () {
+      localStorage.removeItem("imagenQR");
+      localStorage.removeItem("maxTamImagenQR");
+      (document.querySelector("#displayImage") as HTMLInputElement).style.display = "none";
+      (document.querySelector("#iconoCamaraQR") as HTMLInputElement).style.display = "block";
+      (document.querySelector("#borrarImagenQR") as HTMLInputElement).style.display = "none";
+    })
   }
 
   agregarTodos() {
@@ -143,26 +171,32 @@ export class ModificarEventoPage {
   }
 
   agregar(u: Usuario) {
-    
-    this.usuarios = this.usuarios.filter((usu) => usu._id !== u._id )
+
+    this.usuarios = this.usuarios.filter((usu) => usu._id !== u._id)
     this.evento.invitados.push(u)
-    
+
   }
 
   quitar(u: Usuario) {
-    this.evento.invitados = this.evento.invitados.filter((usu) => usu._id !== u._id )
+    this.evento.invitados = this.evento.invitados.filter((usu) => usu._id !== u._id)
     this.usuarios.push(u)
   }
 
   onSubmit() {
+    this.evento.imagenQR = localStorage.getItem('imagenQR');
     let loader = this.loader.create({
       content: 'Cargando...',
       spinner: 'circles'
 
     })
     loader.present()
-    this.evento.fecha = Date.parse(this.form.value.diahora.replace(/-/g,'/').replace('T',' '))
+    this.evento.fecha = Date.parse(this.form.value.diahora.replace(/-/g, '/').replace('T', ' '))
 
+    if (localStorage.getItem('maxTamImagenQR')) {
+      this.utilService.dispararAlert("Error", "Imagen QR mayor a 256Kb")
+      loader.dismiss()
+      return;
+    }
     if (this.evento._id === '') {
       this.eventoService.altaEvento(this.evento).subscribe((resp) => {
         loader.dismiss()
@@ -230,7 +264,7 @@ export class ModificarEventoPage {
           text: 'No',
           role: 'cancel',
           handler: () => {
-            
+
           }
         },
         {
@@ -262,11 +296,11 @@ export class ModificarEventoPage {
       }
     )
   }
-  goBack(){
+  goBack() {
     this.navCtrl.setRoot(ListaEventosPage)
-     
+
   }
-  mobile(): boolean{
+  mobile(): boolean {
     return this.platform.is('mobile')
   }
 

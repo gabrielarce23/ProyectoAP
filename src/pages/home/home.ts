@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, LoadingController, NavController, Platform } from 'ionic-angular';
+import { AlertController, LoadingController, NavController, Platform, ModalController } from 'ionic-angular';
 import { Evento } from '../../models/evento.models';
 import { EventoService } from '../../providers/evento.service';
 import { DetallesEventoPage } from '../detalles-evento/detalles-evento';
@@ -10,6 +10,8 @@ import { FirebaseMessagingProvider } from './../../providers/firebase-messaging'
 import { UsuarioService } from './../../providers/usuario.service';
 //import { AltaDeUsuarioPage } from '../Backoffice/alta-usuario';
 import { UtilsServiceProvider } from './../../providers/utils.service';
+import { ModalPage } from './../modal/modal';
+
 
 @Component({
   selector: 'page-home',
@@ -22,13 +24,13 @@ export class HomePage {
   categoria: Categoria = new Categoria()
   habilitoHome: boolean = false;
   cuenta: Cuenta = new Cuenta()
-  mostrarSaldo : boolean = false
+  mostrarSaldo: boolean = false
 
   constructor(public navCtrl: NavController, private alertCtrk: AlertController,
     private platform: Platform, public fmp: FirebaseMessagingProvider
     , private loader: LoadingController, private utilServ: UtilsServiceProvider,
     private userServ: UsuarioService, public util: UtilsServiceProvider, private catServ: CategoriaService
-    , private eventServ: EventoService) {
+    , private eventServ: EventoService, public modalCtrl: ModalController) {
 
   }
   async ionViewWillEnter() {
@@ -57,6 +59,11 @@ export class HomePage {
 
   }
 
+  abrirModal(evento: Evento) {
+    let modal = this.modalCtrl.create(ModalPage, { imagenQR: evento.imagenQR });
+    modal.present();
+  }
+
   getSubtitulo(evento: Evento) {
     let date = new Date(evento.fecha)
     let dia = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()
@@ -70,7 +77,7 @@ export class HomePage {
 
   get fechaCuota() {
     let dia = new Date().getDate()
-    if(new Date().getMonth() >10 && dia > this.categoria.diaVtoCuota) {
+    if (new Date().getMonth() > 10 && dia > this.categoria.diaVtoCuota) {
       return `${this.categoria.diaVtoCuota}/${13 - this.categoria.cantidadCuotasAnuales}/${new Date().getFullYear() + 1}`
     }
     let mes = dia > this.categoria.diaVtoCuota ? new Date().getMonth() + 2 : new Date().getMonth() + 1
@@ -81,7 +88,7 @@ export class HomePage {
     try {
 
 
-      let resp = await this.eventServ.obtenerEventosHome(this.usuario._id, this.categoria._id ).toPromise()
+      let resp = await this.eventServ.obtenerEventosHome(this.usuario._id, this.categoria._id).toPromise()
       if (resp) {
         this.eventos = resp.data.eventos
 
@@ -123,7 +130,7 @@ export class HomePage {
       console.log(e)
     }
   }
-  
+
 
   detalles(evento: Evento) {
     this.navCtrl.push(DetallesEventoPage, { evento })

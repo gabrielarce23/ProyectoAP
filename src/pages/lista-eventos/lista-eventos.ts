@@ -123,7 +123,7 @@ export class ListaEventosPage {
   puedeCrear(): boolean {
     return new Date(this.fechaSeleccionada.getFullYear(), this.fechaSeleccionada.getMonth(), this.fechaSeleccionada.getDate() + 1).valueOf() > Date.now()
   }
-  registrosDT(evento : Evento) {
+  registrosDT(evento: Evento) {
     let rolDt = this.roles.filter((rol) => rol.codigo === 'DTS')[0]
 
     let usuario: Usuario = this.usuServ.usuario

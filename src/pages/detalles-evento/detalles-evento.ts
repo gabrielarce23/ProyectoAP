@@ -3,9 +3,10 @@ import { EventoService } from './../../providers/evento.service';
 import { UsuarioService } from './../../providers/usuario.service';
 import { ListaEventosPage } from './../lista-eventos/lista-eventos';
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 import { Evento } from '../../models/evento.models';
 import { Usuario } from '../../models/usuario.model';
+import { ModalPage } from './../modal/modal';
 
 
 /**
@@ -36,7 +37,7 @@ export class DetallesEventoPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private loader: LoadingController, private usuServ: UsuarioService,
-    private utilServ: UtilsServiceProvider, private eventServ: EventoService) {
+    private utilServ: UtilsServiceProvider, private eventServ: EventoService, public modalCtrl: ModalController) {
     this.evento = this.navParams.get('evento')
   }
 
@@ -55,6 +56,10 @@ export class DetallesEventoPage {
   }
 
 
+  abrirModal(evento: Evento) {
+    let modal = this.modalCtrl.create(ModalPage, { imagenQR: evento.imagenQR });
+    modal.present();
+  }
 
   goBack() {
     this.navCtrl.setRoot(ListaEventosPage)
@@ -120,14 +125,14 @@ export class DetallesEventoPage {
     return true
   }
 
-  puedoDudar(){
+  puedoDudar() {
     if (this.evento.duda.find((u) => u._id === this.usuario._id)) return false
 
     return true
   }
 
   convocado() {
-    if(this.evento.fecha < Date.now()) return false
+    if (this.evento.fecha < Date.now()) return false
     if (this.evento.invitados.find((u) => u._id === this.usuario._id)) return true
     if (this.evento.duda.find((u) => u._id === this.usuario._id)) return true
     if (this.evento.confirmados.find((u) => u._id === this.usuario._id)) return true

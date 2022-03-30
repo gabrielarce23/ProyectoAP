@@ -13,7 +13,7 @@
     <ion-title>
       Detalles Evento
     </ion-title>
-    
+
   </ion-navbar>
 
 </ion-header>
@@ -62,6 +62,20 @@
           <b>Ubicación: </b><span item-end><a target="_blank" [href]="evento.lugar.linkUbicacion">Ver en mapa</a></span>
         </ion-item>
 
+        <ion-item *ngIf="evento.imagenQR">
+          <ion-label style="display: flex; justify-content: space-between;">
+            <div>
+              <ion-icon id="iconoCamaraQR" ios="ios-camera" md="md-camera">
+              </ion-icon>
+              <b>QR: </b>
+            </div>
+            <button ion-button clear icon-only (click)="abrirModal(evento)">
+              <img src="http://localhost:8100/assets/icon/qr-code-outline.svg" style="height: 15; width: 24px;">
+            </button>
+          </ion-label>
+        </ion-item>
+
+
         <div class="spacer" style="width:300px;height:15px;" id="registro-spacer8"></div>
 
 
@@ -69,8 +83,9 @@
 
         <ion-item-divider color="light">
           Pendientes{{' ('+ evento.invitados.length + ')'}}
-         
-          <button ion-button item-end class="btn-mostrar" type="button" (click)="toggle('convocados')">{{btnConvocados}}</button>
+
+          <button ion-button item-end class="btn-mostrar" type="button"
+            (click)="toggle('convocados')">{{btnConvocados}}</button>
 
         </ion-item-divider>
         <ng-container *ngIf="verConvocados">
@@ -121,24 +136,25 @@
     <div class="spacer" style="width:300px;height:15px;" id="registro-spacer8"></div>
     <ion-row justify-content-center *ngIf="convocado() ">
       <ion-col col-xl-2>
-        <button type="button"  ion-button="" block color="positive"  [disabled]="!puedoNoIr()" (click)="confirmar(false)">
+        <button type="button" ion-button="" block color="positive" [disabled]="!puedoNoIr()" (click)="confirmar(false)">
           No Voy
         </button>
       </ion-col>
       <ion-col col-xl-2>
-        <button type="submit" ion-button="" block color="positive"  [disabled]="!puedoDudar()" (click)="confirmar(undefined)">
+        <button type="submit" ion-button="" block color="positive" [disabled]="!puedoDudar()"
+          (click)="confirmar(undefined)">
           Duda
         </button>
       </ion-col>
 
       <ion-col col-xl-2>
-        <button type="submit" ion-button="" block color="positive"  [disabled]="!puedoIr()" (click)="confirmar(true)">
+        <button type="submit" ion-button="" block color="positive" [disabled]="!puedoIr()" (click)="confirmar(true)">
           Voy
         </button>
       </ion-col>
 
     </ion-row>
-   
+
   </ion-grid>
 
 </ion-content>

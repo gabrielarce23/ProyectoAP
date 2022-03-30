@@ -160,7 +160,7 @@ api.post('/eventos', async (req, res) => {
 
     try {
         var evento = new Evento(_.pick(req.body, ['fecha', 'nombre', 'tipoEvento', 'tipoEvento', 'lugar',
-            'rival', 'invitados', 'categoria']))
+            'rival', 'invitados', 'categoria', 'imagenQR']))
         await evento.save()
 
         for (let id of evento.invitados) {
@@ -278,26 +278,26 @@ api.put('/eventos/:id', async (req, res) => {
     try {
         let _id = req.params.id;
         let notificar = req.query.notificar
-        let evento = await Evento.findOne({_id})
-        let invitados = req.body.invitados.filter((u)=>{
-            let usuarios = [...evento.confirmados, ...evento.noAsisten, ...evento.duda ].map(u=>u.toString())
-           
-            if(usuarios.indexOf(u._id.toString())>=0){
+        let evento = await Evento.findOne({ _id })
+        let invitados = req.body.invitados.filter((u) => {
+            let usuarios = [...evento.confirmados, ...evento.noAsisten, ...evento.duda].map(u => u.toString())
+
+            if (usuarios.indexOf(u._id.toString()) >= 0) {
                 return false
-            }else{
+            } else {
                 return true
             }
-                             
+
         })
-      
+
         evento = await Evento.findOneAndUpdate({ _id }, {
             ...req.body,
             invitados,
             confirmados: evento.confirmados,
-            noAsisten : evento.noAsisten,
+            noAsisten: evento.noAsisten,
             duda: evento.duda
         })
-        
+
 
         if (!evento) {
             res.status(401).send(new ApiResponse({}, 'No fue posible actualizar el evento'))

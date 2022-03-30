@@ -56,6 +56,7 @@ import { TipoEventoService } from './../providers/tipoevento.service';
 import { UsuarioService } from './../providers/usuario.service';
 import { MyApp } from './app.component';
 import { PlantelPage } from './../pages/plantel/plantel';
+import { ModalPage } from './../pages/modal/modal';
 
 
 
@@ -90,7 +91,7 @@ import { PlantelPage } from './../pages/plantel/plantel';
     DetalleFechaPage,
     ModificacionDatosPage,
     ConsultaModificacionDatosPage,
-    RegistroPagoCuotaPage, 
+    RegistroPagoCuotaPage,
     DetalleMovimientoPage,
     ListaRegistroEventoPage,
     ModificarComentarioPage,
@@ -100,13 +101,15 @@ import { PlantelPage } from './../pages/plantel/plantel';
     DetallePagoPage,
     SaldosJugadoresPage,
     PlantelPage,
-    SaldosPlantelPage
-    
+    SaldosPlantelPage,
+    ModalPage
+
 
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp,{scrollPadding: false,
+    IonicModule.forRoot(MyApp, {
+      scrollPadding: false,
       scrollAssist: true,
       autoFocusAssist: false,
       backButtonText: ''
@@ -143,7 +146,7 @@ import { PlantelPage } from './../pages/plantel/plantel';
     DetalleFechaPage,
     ModificacionDatosPage,
     ConsultaModificacionDatosPage,
-    RegistroPagoCuotaPage, 
+    RegistroPagoCuotaPage,
     DetalleMovimientoPage,
     ListaRegistroEventoPage,
     ModificarComentarioPage,
@@ -153,9 +156,10 @@ import { PlantelPage } from './../pages/plantel/plantel';
     DetallePagoPage,
     SaldosJugadoresPage,
     PlantelPage,
-    SaldosPlantelPage
-    
-    
+    SaldosPlantelPage,
+    ModalPage
+
+
   ],
   providers: [
     FirebaseMessagingProvider,
@@ -170,7 +174,7 @@ import { PlantelPage } from './../pages/plantel/plantel';
     MenuService,
     CampeonatoService,
     EventoService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }
