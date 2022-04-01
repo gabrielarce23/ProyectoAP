@@ -60,32 +60,32 @@
                 </ion-card-content>
 
                 <ion-row class="card-footer">
-                  <ion-col item-right>
+                  <ion-col item-right col-2>
                     <button ion-button clear (click)="confirmar(true,evento)">
 
                       VOY
                     </button>
                   </ion-col>
-                  <ion-col>
+                  <ion-col col-3>
                     <button ion-button clear (click)="confirmar(false,evento)">
 
                       NO VOY
                     </button>
                   </ion-col>
-                  <ion-col>
+                  <ion-col col-3>
                     <button ion-button clear (click)="confirmar(undefined,evento)">
                       DUDA
 
                     </button>
                   </ion-col>
 
-                  <ion-col *ngIf="evento.imagenQR" align-self-center text-center>
+                  <ion-col *ngIf="evento.imagenQR" col-2 align-self-center text-center>
                     <button ion-button clear icon-only (click)="abrirModal(evento)">
                       <img [src]="qrImage" style="height: 15; width: 24px;">
                     </button>
                   </ion-col>
 
-                  <ion-col align-self-center text-center>
+                  <ion-col align-self-center text-center col-2 [attr.offset-2]="!!evento.imagenQR ? null : true">
                     <a target="_blank" [href]="evento.lugar.linkUbicacion">
                       <button ion-button clear icon-only>
                         <ion-icon color="myFontColor" name="navigate"></ion-icon>
