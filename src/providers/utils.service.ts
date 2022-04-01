@@ -1,5 +1,5 @@
-import { AlertController } from 'ionic-angular';
 import { Injectable } from "@angular/core";
+import { AlertController } from 'ionic-angular';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -22,6 +22,14 @@ export class UtilsServiceProvider {
         }
 
       ]
+    });
+    alert.present();
+  }
+
+  abrirImagen(imagenQR: String) {
+    let alert = this.alertCtrl.create({
+      message: `<img src="${imagenQR}" class="qr-modal-img" alt="Imagen QR" />`,
+      cssClass: 'modal-qr'
     });
     alert.present();
   }

@@ -1,4 +1,3 @@
-import { SaldosPlantelPage } from './../pages/saldos-plantel/saldos-plantel';
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -45,7 +44,9 @@ import { ModificacionDatosPage } from './../pages/modificacion-datos/modificacio
 import { ModificarComentarioPage } from './../pages/modificar-comentario/modificar-comentario';
 import { ModificarEventoPage } from './../pages/modificar-evento/modificar-evento';
 import { ModificarPasswordPage } from './../pages/modificar-password/modificar-password';
+import { PlantelPage } from './../pages/plantel/plantel';
 import { RegistroPagoCuotaPage } from './../pages/registro-pago-cuota/registro-pago-cuota';
+import { SaldosPlantelPage } from './../pages/saldos-plantel/saldos-plantel';
 import { UsuariosEnCategoriaPage } from './../pages/usuarios-en-categoria/usuarios-en-categoria';
 import { CampeonatoService } from './../providers/campeonato.service';
 import { CategoriaService } from './../providers/categoria.service';
@@ -55,7 +56,6 @@ import { MenuService } from './../providers/menu.service';
 import { TipoEventoService } from './../providers/tipoevento.service';
 import { UsuarioService } from './../providers/usuario.service';
 import { MyApp } from './app.component';
-import { PlantelPage } from './../pages/plantel/plantel';
 
 
 
@@ -90,7 +90,7 @@ import { PlantelPage } from './../pages/plantel/plantel';
     DetalleFechaPage,
     ModificacionDatosPage,
     ConsultaModificacionDatosPage,
-    RegistroPagoCuotaPage, 
+    RegistroPagoCuotaPage,
     DetalleMovimientoPage,
     ListaRegistroEventoPage,
     ModificarComentarioPage,
@@ -100,13 +100,12 @@ import { PlantelPage } from './../pages/plantel/plantel';
     DetallePagoPage,
     SaldosJugadoresPage,
     PlantelPage,
-    SaldosPlantelPage
-    
-
+    SaldosPlantelPage,
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp,{scrollPadding: false,
+    IonicModule.forRoot(MyApp, {
+      scrollPadding: false,
       scrollAssist: true,
       autoFocusAssist: false,
       backButtonText: ''
@@ -143,7 +142,7 @@ import { PlantelPage } from './../pages/plantel/plantel';
     DetalleFechaPage,
     ModificacionDatosPage,
     ConsultaModificacionDatosPage,
-    RegistroPagoCuotaPage, 
+    RegistroPagoCuotaPage,
     DetalleMovimientoPage,
     ListaRegistroEventoPage,
     ModificarComentarioPage,
@@ -153,9 +152,9 @@ import { PlantelPage } from './../pages/plantel/plantel';
     DetallePagoPage,
     SaldosJugadoresPage,
     PlantelPage,
-    SaldosPlantelPage
-    
-    
+    SaldosPlantelPage,
+
+
   ],
   providers: [
     FirebaseMessagingProvider,
@@ -170,7 +169,7 @@ import { PlantelPage } from './../pages/plantel/plantel';
     MenuService,
     CampeonatoService,
     EventoService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }

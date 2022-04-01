@@ -249,3 +249,26 @@ ion-menu{
 *::-webkit-scrollbar {
   display: none;
 }
+
+.modal-qr {
+  .alert-wrapper {
+    max-width: 90%;
+  }
+
+  .alert-head {
+    display: none;
+  }
+
+  .alert-message {
+    max-height: min-content;
+    padding: 0;
+  }
+  
+  .qr-modal-img{
+    width: 100%;
+  }
+
+  .alert-button-group {
+    display: none;
+  }
+}
