@@ -86,7 +86,7 @@ export class ModificarEventoPage {
         this.evento = { ...this.navParams.get('evento') }
         this.diahoratxt = this.utilService.fechahoraToText(new Date(this.evento.fecha))
         if(this.evento.imagenQR) {
-          this.qrImage = { name: "Imagen cargada", result: this.evento.imagenQR, size: 0}
+          this.qrImage = { name: "Img.png", result: this.evento.imagenQR, size: 0}
         }
         for (let tipo of this.tiposEvento) {
 
