@@ -86,7 +86,7 @@
               <div style="display: flex;">
                 <div class="container2">
                   <div *ngIf="qrImage" id="displayImage" (click) = "abrirImagen()">
-                    {{qrImage.name}}
+                    {{qrImage.name.substr(0,7) + (qrImage.name.length > 7 ? '...' : '')}}
                   </div>
                   <div *ngIf="!qrImage">
                     <ion-icon id="iconoCamaraQR" ios="ios-camera" md="md-camera">
