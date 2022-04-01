@@ -60,7 +60,7 @@
                 </ion-card-content>
 
                 <ion-row class="card-footer">
-                  <ion-col item-right col-2>
+                  <ion-col col-2>
                     <button ion-button clear (click)="confirmar(true,evento)">
 
                       VOY
@@ -79,19 +79,21 @@
                     </button>
                   </ion-col>
 
-                  <ion-col *ngIf="evento.imagenQR" col-2 align-self-center text-center>
-                    <button ion-button clear icon-only (click)="abrirModal(evento)">
-                      <img [src]="qrImage" style="height: 15; width: 24px;">
-                    </button>
-                  </ion-col>
-
-                  <ion-col align-self-center text-center col-2 [attr.offset-2]="!!evento.imagenQR ? null : true">
+                
+                  <ion-col align-self-center text-center col-2>
                     <a target="_blank" [href]="evento.lugar.linkUbicacion">
                       <button ion-button clear icon-only>
                         <ion-icon color="myFontColor" name="navigate"></ion-icon>
                       </button>
                     </a>
                   </ion-col>
+
+                  <ion-col *ngIf="evento.imagenQR" col-2 text-center>
+                    <button ion-button clear icon-only (click)="abrirModal(evento)">
+                      <img [src]="qrImage" style="height: 15; width: 24px;">
+                    </button>
+                  </ion-col>
+
                 </ion-row>
 
               </ion-card>
