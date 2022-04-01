@@ -81,7 +81,7 @@
 
                   <ion-col *ngIf="evento.imagenQR" align-self-center text-center>
                     <button ion-button clear icon-only (click)="abrirModal(evento)">
-                      <img src="http://localhost:8100/assets/icon/qr-code-outline.svg" style="height: 15; width: 24px;">
+                      <img [src]="qrImage" style="height: 15; width: 24px;">
                     </button>
                   </ion-col>
 

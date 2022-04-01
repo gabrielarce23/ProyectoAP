@@ -85,14 +85,18 @@
               Imagen QR
               <div style="display: flex;">
                 <div class="container2">
-                  <div id="displayImage"></div>
-                  <div>
+                  <div *ngIf="qrImage" id="displayImage" (click) = "abrirImagen()">
+                    {{qrImage.name}}
+                  </div>
+                  <div *ngIf="!qrImage">
                     <ion-icon id="iconoCamaraQR" ios="ios-camera" md="md-camera">
-                      <input class="fileInput" type="file" id="imageInput" accept="image/png, image/jpg">
+                      <input class="fileInput" type="file" id="imageInput" accept="image/png, image/jpg" 
+                      (change)="onChangeQRHandler($event)">
                     </ion-icon>
                   </div>
                 </div>
-                <ion-icon id="borrarImagenQR" ios="ios-close" md="md-close" style="margin-left: 5px; display: none;">
+                <ion-icon *ngIf="qrImage" id="borrarImagenQR" ios="ios-close" md="md-close" 
+                (click) = "onDeleteQR()" style="margin-left: 5px;">
                 </ion-icon>
               </div>
             </ion-label>

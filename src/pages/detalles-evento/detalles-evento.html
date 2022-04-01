@@ -63,16 +63,10 @@
         </ion-item>
 
         <ion-item *ngIf="evento.imagenQR">
-          <ion-label style="display: flex; justify-content: space-between;">
-            <div>
-              <ion-icon id="iconoCamaraQR" ios="ios-camera" md="md-camera">
-              </ion-icon>
-              <b>QR: </b>
-            </div>
-            <button ion-button clear icon-only (click)="abrirModal(evento)">
-              <img src="http://localhost:8100/assets/icon/qr-code-outline.svg" style="height: 15; width: 24px;">
-            </button>
-          </ion-label>
+            <ion-icon id="iconoCamaraQR" ios="ios-camera" md="md-camera">
+            </ion-icon>
+            <b>QR: </b>
+            <ion-icon name="custom-qr" item-end (click)="abrirModal(evento)"></ion-icon>
         </ion-item>
 
 

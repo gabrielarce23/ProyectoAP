@@ -10,7 +10,7 @@ import { FirebaseMessagingProvider } from './../../providers/firebase-messaging'
 import { UsuarioService } from './../../providers/usuario.service';
 //import { AltaDeUsuarioPage } from '../Backoffice/alta-usuario';
 import { UtilsServiceProvider } from './../../providers/utils.service';
-import { ModalPage } from './../modal/modal';
+import { QRIMAGE } from '../../providers/constant';
 
 
 @Component({
@@ -25,6 +25,7 @@ export class HomePage {
   habilitoHome: boolean = false;
   cuenta: Cuenta = new Cuenta()
   mostrarSaldo: boolean = false
+  qrImage: string = QRIMAGE;
 
   constructor(public navCtrl: NavController, private alertCtrk: AlertController,
     private platform: Platform, public fmp: FirebaseMessagingProvider
@@ -60,8 +61,10 @@ export class HomePage {
   }
 
   abrirModal(evento: Evento) {
-    let modal = this.modalCtrl.create(ModalPage, { imagenQR: evento.imagenQR });
-    modal.present();
+    /* let modal = this.modalCtrl.create(ModalPage, { imagenQR: evento.imagenQR });
+    modal.present(); */
+
+    this.utilServ.abrirImagen(evento.imagenQR+'')
   }
 
   getSubtitulo(evento: Evento) {

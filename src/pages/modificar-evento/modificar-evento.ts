@@ -37,6 +37,7 @@ export class ModificarEventoPage {
   diahoratxt = `2019-01-04T02:01`
   categoria: Categoria = new Categoria()
   notificar: boolean = false;
+  qrImage: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private utilService: UtilsServiceProvider, private loader: LoadingController,
@@ -84,6 +85,9 @@ export class ModificarEventoPage {
       } else {
         this.evento = { ...this.navParams.get('evento') }
         this.diahoratxt = this.utilService.fechahoraToText(new Date(this.evento.fecha))
+        if(this.evento.imagenQR) {
+          this.qrImage = { name: "Imagen cargada", result: this.evento.imagenQR, size: 0}
+        }
         for (let tipo of this.tiposEvento) {
 
           if (tipo._id === this.evento.tipoEvento._id) {
@@ -111,10 +115,6 @@ export class ModificarEventoPage {
 
       }
 
-      this.prepararCargaImagenQR();
-
-
-
       loader.dismiss()
     } catch (e) {
       console.log(e)
@@ -123,36 +123,6 @@ export class ModificarEventoPage {
 
 
   }
-  prepararCargaImagenQR() {
-    const imageInput = document.querySelector("#imageInput");
-    imageInput.addEventListener("change", function () {
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        const uploadedImage = reader.result;
-        localStorage.setItem('imagenQR', uploadedImage.toString());
-        (document.querySelector("#displayImage") as HTMLInputElement).style.backgroundImage = `url(${uploadedImage})`;
-        (document.querySelector("#displayImage") as HTMLInputElement).style.display = "block";
-        (document.querySelector("#iconoCamaraQR") as HTMLInputElement).style.display = "none";
-        (document.querySelector("#borrarImagenQR") as HTMLInputElement).style.display = "block";
-      });
-      if (this.files[0]) {
-        reader.readAsDataURL(this.files[0]);
-        localStorage.removeItem("maxTamImagenQR");
-      }
-      if (this.files[0].size > 250000) { //256Kb
-        localStorage.setItem("maxTamImagenQR", "true");
-      }
-    });
-
-    const borrarImagenQR = document.querySelector("#borrarImagenQR");
-    borrarImagenQR.addEventListener("click", function () {
-      localStorage.removeItem("imagenQR");
-      localStorage.removeItem("maxTamImagenQR");
-      (document.querySelector("#displayImage") as HTMLInputElement).style.display = "none";
-      (document.querySelector("#iconoCamaraQR") as HTMLInputElement).style.display = "block";
-      (document.querySelector("#borrarImagenQR") as HTMLInputElement).style.display = "none";
-    })
-  }
 
   agregarTodos() {
     this.evento.invitados = [
@@ -160,6 +130,25 @@ export class ModificarEventoPage {
       ...this.usuarios
     ]
     this.usuarios = []
+  }
+
+  onChangeQRHandler(event) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const file = event.target.files[0]
+      this.qrImage = {name: file.name, result: reader.result, size: file.size}
+    };
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  onDeleteQR() {
+    this.qrImage = null;
+  }
+
+  abrirImagen() {
+    this.utilService.abrirImagen(this.qrImage.result)
   }
 
   quitarTodos() {
@@ -183,7 +172,7 @@ export class ModificarEventoPage {
   }
 
   onSubmit() {
-    this.evento.imagenQR = localStorage.getItem('imagenQR');
+    
     let loader = this.loader.create({
       content: 'Cargando...',
       spinner: 'circles'
@@ -192,11 +181,12 @@ export class ModificarEventoPage {
     loader.present()
     this.evento.fecha = Date.parse(this.form.value.diahora.replace(/-/g, '/').replace('T', ' '))
 
-    if (localStorage.getItem('maxTamImagenQR')) {
+    if (this.qrImage && this.qrImage.size > 250000) {
       this.utilService.dispararAlert("Error", "Imagen QR mayor a 256Kb")
       loader.dismiss()
       return;
     }
+    this.evento.imagenQR = this.qrImage ? this.qrImage.result : '';
     if (this.evento._id === '') {
       this.eventoService.altaEvento(this.evento).subscribe((resp) => {
         loader.dismiss()

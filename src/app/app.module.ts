@@ -1,4 +1,3 @@
-import { SaldosPlantelPage } from './../pages/saldos-plantel/saldos-plantel';
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -45,7 +44,9 @@ import { ModificacionDatosPage } from './../pages/modificacion-datos/modificacio
 import { ModificarComentarioPage } from './../pages/modificar-comentario/modificar-comentario';
 import { ModificarEventoPage } from './../pages/modificar-evento/modificar-evento';
 import { ModificarPasswordPage } from './../pages/modificar-password/modificar-password';
+import { PlantelPage } from './../pages/plantel/plantel';
 import { RegistroPagoCuotaPage } from './../pages/registro-pago-cuota/registro-pago-cuota';
+import { SaldosPlantelPage } from './../pages/saldos-plantel/saldos-plantel';
 import { UsuariosEnCategoriaPage } from './../pages/usuarios-en-categoria/usuarios-en-categoria';
 import { CampeonatoService } from './../providers/campeonato.service';
 import { CategoriaService } from './../providers/categoria.service';
@@ -55,8 +56,6 @@ import { MenuService } from './../providers/menu.service';
 import { TipoEventoService } from './../providers/tipoevento.service';
 import { UsuarioService } from './../providers/usuario.service';
 import { MyApp } from './app.component';
-import { PlantelPage } from './../pages/plantel/plantel';
-import { ModalPage } from './../pages/modal/modal';
 
 
 
@@ -102,9 +101,6 @@ import { ModalPage } from './../pages/modal/modal';
     SaldosJugadoresPage,
     PlantelPage,
     SaldosPlantelPage,
-    ModalPage
-
-
   ],
   imports: [
     BrowserModule,
@@ -157,7 +153,6 @@ import { ModalPage } from './../pages/modal/modal';
     SaldosJugadoresPage,
     PlantelPage,
     SaldosPlantelPage,
-    ModalPage
 
 
   ],

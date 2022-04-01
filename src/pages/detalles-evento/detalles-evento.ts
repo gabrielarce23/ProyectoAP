@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 import { Evento } from '../../models/evento.models';
 import { Usuario } from '../../models/usuario.model';
-import { ModalPage } from './../modal/modal';
 
 
 /**
@@ -57,8 +56,7 @@ export class DetallesEventoPage {
 
 
   abrirModal(evento: Evento) {
-    let modal = this.modalCtrl.create(ModalPage, { imagenQR: evento.imagenQR });
-    modal.present();
+    this.utilServ.abrirImagen(evento.imagenQR)
   }
 
   goBack() {
