@@ -13,11 +13,10 @@
     <ion-title>
       Mantenimiento Evento
     </ion-title>
-   
+
   </ion-navbar>
 
 </ion-header>
-
 
 <ion-content padding id="page5">
   <form (ngSubmit)="onSubmit()" #form="ngForm">
@@ -38,8 +37,8 @@
             <ion-label>
               Nombre
             </ion-label>
-            <ion-input text-right type="text" placeholder="Ej: Práctica Guille" name="nombre" [(ngModel)]="evento.nombre"
-              #nombre="ngModel" required></ion-input>
+            <ion-input text-right type="text" placeholder="Ej: Práctica Guille" name="nombre"
+              [(ngModel)]="evento.nombre" #nombre="ngModel" required></ion-input>
           </ion-item>
           <ion-item id="altaDeUsuario-select9">
             <ion-label>
@@ -63,22 +62,44 @@
             <ion-label>
               Lugar
             </ion-label>
-            <ion-input text-right type="text" placeholder="Ej: En el Golf" name="lugar" required [(ngModel)]="evento.lugar.nombre"
-              #lugar="ngModel"></ion-input>
+            <ion-input text-right type="text" placeholder="Ej: En el Golf" name="lugar" required
+              [(ngModel)]="evento.lugar.nombre" #lugar="ngModel"></ion-input>
           </ion-item>
           <ion-item [ngClass]="{ 'ng-touched' : direccion.touched }" fixed id="registro-input15">
             <ion-label>
               Dirección
             </ion-label>
-            <ion-input text-right type="text" placeholder="Ej: Rambla y Bvar Artigas" required name="direccion" [(ngModel)]="evento.lugar.direccion"
-              #direccion="ngModel"></ion-input>
+            <ion-input text-right type="text" placeholder="Ej: Rambla y Bvar Artigas" required name="direccion"
+              [(ngModel)]="evento.lugar.direccion" #direccion="ngModel"></ion-input>
           </ion-item>
           <ion-item [ngClass]="{ 'ng-touched' : linkUbicacion.touched }" fixed id="registro-input15">
             <ion-label>
               Link Ubicación
             </ion-label>
-            <ion-input text-right type="text" [required] = "!mobile()" placeholder="Ej: https://goo.gl/maps/QEtNhiPCmas" name="linkUbicacion"
-              [(ngModel)]="evento.lugar.linkUbicacion" #linkUbicacion="ngModel"></ion-input>
+            <ion-input text-right type="text" [required]="!mobile()" placeholder="Ej: https://goo.gl/maps/QEtNhiPCmas"
+              name="linkUbicacion" [(ngModel)]="evento.lugar.linkUbicacion" #linkUbicacion="ngModel"></ion-input>
+          </ion-item>
+          <ion-item [ngClass]="{ 'ng-touched' : linkUbicacion.touched }" fixed id="registro-input15"
+            style="margin-bottom: 0;">
+            <ion-label style="display: flex; justify-content: space-between;">
+              Imagen QR
+              <div style="display: flex;">
+                <div class="container2">
+                  <div *ngIf="qrImage" id="displayImage" (click) = "abrirImagen()">
+                    {{qrImage.name.substr(0,7) + (qrImage.name.length > 7 ? '...' : '')}}
+                  </div>
+                  <div *ngIf="!qrImage">
+                    <ion-icon id="iconoCamaraQR" ios="ios-camera" md="md-camera">
+                      <input class="fileInput" type="file" id="imageInput" accept="image/png, image/jpg" 
+                      (change)="onChangeQRHandler($event)">
+                    </ion-icon>
+                  </div>
+                </div>
+                <ion-icon *ngIf="qrImage" id="borrarImagenQR" ios="ios-close" md="md-close" 
+                (click) = "onDeleteQR()" style="margin-left: 5px;">
+                </ion-icon>
+              </div>
+            </ion-label>
           </ion-item>
           <ion-item *ngIf="evento._id !==''">
             <ion-label>Notificar cambio:</ion-label>
@@ -87,14 +108,13 @@
 
           <div class="spacer" style="width:300px;height:15px;" id="registro-spacer8"></div>
 
-
-
           <ion-item-divider color="light">
             Usuarios{{' ('+ usuarios.length + ')'}}
             <button ion-button item-end class="btn-mostrar" type="button" (click)="agregarTodos()" icon-only>
               <ion-icon name="people"></ion-icon>
             </button>
-            <button ion-button item-end class="btn-mostrar" type="button" (click)="toggle('usuarios')">{{btnUsuario}}</button>
+            <button ion-button item-end class="btn-mostrar" type="button"
+              (click)="toggle('usuarios')">{{btnUsuario}}</button>
 
           </ion-item-divider>
           <ng-container *ngIf="verUsuarios">
@@ -112,7 +132,8 @@
             <button ion-button item-end class="btn-mostrar" type="button" icon-only (click)="quitarTodos()">
               <ion-icon name="people"></ion-icon>
             </button>
-            <button ion-button item-end class="btn-mostrar" type="button" (click)="toggle('invitados')">{{btnInvitados}}</button>
+            <button ion-button item-end class="btn-mostrar" type="button"
+              (click)="toggle('invitados')">{{btnInvitados}}</button>
 
           </ion-item-divider>
           <ng-container *ngIf="verInvitados">
@@ -130,8 +151,8 @@
       <ion-row justify-content-center>
 
         <ion-col col-xl-2>
-          <button type="button" [disabled]="evento._id ==='' || nopuedeCancelar() " ion-button="" (click)="confirmarCancelacion()"
-            block color="positive">
+          <button type="button" [disabled]="evento._id ==='' || nopuedeCancelar() " ion-button=""
+            (click)="confirmarCancelacion()" block color="positive">
             Borrar
           </button>
         </ion-col>

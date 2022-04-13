@@ -16,4 +16,31 @@ page-modificar-evento {
         .icon{
             font-size: x-large;
         }
+
+        .container2 {
+            display: flex;
+            margin-top: 0;
+            margin-bottom: 0;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+          }
+        
+          #displayImage {
+            margin-right: 1.5rem;
+          }
+        
+          .fileInput {
+            cursor: pointer;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 99;
+            font-size: 50px;
+            opacity: 0;
+            -moz-opacity: 0;
+            filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0)
+          }
 }

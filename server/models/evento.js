@@ -2,64 +2,67 @@ var mongoose = require('mongoose')
 
 var EventoSchema = mongoose.Schema({
     fecha: {
-        type:Number,
+        type: Number,
         required: true
     },
     nombre: {
-        type:String,
-        required:true,
+        type: String,
+        required: true,
         maxlengt: 20
     },
     tipoEvento: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'TipoEvento',
-        required:true
+        ref: 'TipoEvento',
+        required: true
     },
-    lugar : {
-        nombre:{
+    lugar: {
+        nombre: {
             type: String
         },
-        direccion:{
+        direccion: {
             type: String
         },
-        linkUbicacion:{
+        linkUbicacion: {
             type: String
         }
     },
-    rival :{
+    rival: {
         type: String
     },
-    invitados:[{
+    invitados: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Usuario'
+        ref: 'Usuario'
     }],
-    confirmados:[{
+    confirmados: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Usuario'
+        ref: 'Usuario'
     }],
     noAsisten: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Usuario'
+        ref: 'Usuario'
     }],
     duda: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Usuario'
+        ref: 'Usuario'
     }],
-    registrosDT:[{
-        jugadorId:{
+    registrosDT: [{
+        jugadorId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref:'Usuario'
+            ref: 'Usuario'
         },
         comentario: {
             type: String
         }
     }],
-    categoria:{
+    categoria: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Categoria',
-        require:true
+        ref: 'Categoria',
+        require: true
+    },
+    imagenQR: {
+        type: String
     }
 })
 
-var Evento = mongoose.model('Evento',EventoSchema)
-module.exports = {Evento}
+var Evento = mongoose.model('Evento', EventoSchema)
+module.exports = { Evento }

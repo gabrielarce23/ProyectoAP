@@ -37,10 +37,11 @@ export class ModificarEventoPage {
   diahoratxt = `2019-01-04T02:01`
   categoria: Categoria = new Categoria()
   notificar: boolean = false;
+  qrImage: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private utilService: UtilsServiceProvider, private loader: LoadingController,
-    private platform : Platform,
+    private platform: Platform,
     private eventoService: EventoService, private usuServ: UsuarioService, private catService: CategoriaService,
     private alertCont: AlertController) {
 
@@ -55,8 +56,6 @@ export class ModificarEventoPage {
     })
     try {
 
-
-
       loader.present()
 
       this.categoria._id = this.usuServ.usuario.perfiles[0].categoria
@@ -67,13 +66,13 @@ export class ModificarEventoPage {
         ...dataUsuarios.data.categoria.dts,
         ...dataUsuarios.data.categoria.jugadores,
         ], '_id')
-        this.usuarios = this.usuarios.filter((u)=> u.activo)
+        this.usuarios = this.usuarios.filter((u) => u.activo)
         this.categoria = dataUsuarios.data.categoria
         this.evento.categoria = new Categoria();
-        this.evento.categoria._id= this.categoria._id;
+        this.evento.categoria._id = this.categoria._id;
         this.evento.categoria.nombre = this.categoria.nombre;
-        
-        
+
+
       }
       let dataTipo: any = await this.eventoService.obtenerTipoEventos().toPromise()
       this.tiposEvento = dataTipo.data.tipoEventos
@@ -82,27 +81,30 @@ export class ModificarEventoPage {
       if (!this.navParams.get('evento')) {
         this.diahoratxt = this.utilService.fechahoraToText(this.navParams.get('fecha'))
         this.evento.tipoEvento = this.tiposEvento[0]
-     
+
       } else {
-        this.evento = {...this.navParams.get('evento')}
+        this.evento = { ...this.navParams.get('evento') }
         this.diahoratxt = this.utilService.fechahoraToText(new Date(this.evento.fecha))
+        if(this.evento.imagenQR) {
+          this.qrImage = { name: "Img.png", result: this.evento.imagenQR, size: 0}
+        }
         for (let tipo of this.tiposEvento) {
-         
+
           if (tipo._id === this.evento.tipoEvento._id) {
             this.evento.tipoEvento = tipo
-          
+
           }
 
         }
-      
-        
+
+
         let invitadosIds: any[] = [
           ...this.evento.invitados,
           ...this.evento.confirmados,
           ...this.evento.duda,
           ...this.evento.noAsisten]
         this.evento.invitados = []
-        
+
         for (let usu of this.usuarios) {
           if (invitadosIds.indexOf(usu._id) > -1) {
             this.evento.invitados.push(usu)
@@ -112,10 +114,6 @@ export class ModificarEventoPage {
         this.usuarios = _.differenceBy(this.usuarios, this.evento.invitados, '_id')
 
       }
-
-
-
-
 
       loader.dismiss()
     } catch (e) {
@@ -134,6 +132,25 @@ export class ModificarEventoPage {
     this.usuarios = []
   }
 
+  onChangeQRHandler(event) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const file = event.target.files[0]
+      this.qrImage = {name: file.name, result: reader.result, size: file.size}
+    };
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  onDeleteQR() {
+    this.qrImage = null;
+  }
+
+  abrirImagen() {
+    this.utilService.abrirImagen(this.qrImage.result)
+  }
+
   quitarTodos() {
     this.usuarios = [
       ...this.usuarios,
@@ -143,26 +160,33 @@ export class ModificarEventoPage {
   }
 
   agregar(u: Usuario) {
-    
-    this.usuarios = this.usuarios.filter((usu) => usu._id !== u._id )
+
+    this.usuarios = this.usuarios.filter((usu) => usu._id !== u._id)
     this.evento.invitados.push(u)
-    
+
   }
 
   quitar(u: Usuario) {
-    this.evento.invitados = this.evento.invitados.filter((usu) => usu._id !== u._id )
+    this.evento.invitados = this.evento.invitados.filter((usu) => usu._id !== u._id)
     this.usuarios.push(u)
   }
 
   onSubmit() {
+    
     let loader = this.loader.create({
       content: 'Cargando...',
       spinner: 'circles'
 
     })
     loader.present()
-    this.evento.fecha = Date.parse(this.form.value.diahora.replace(/-/g,'/').replace('T',' '))
+    this.evento.fecha = Date.parse(this.form.value.diahora.replace(/-/g, '/').replace('T', ' '))
 
+    if (this.qrImage && this.qrImage.size > 250000) {
+      this.utilService.dispararAlert("Error", "Imagen QR mayor a 256Kb")
+      loader.dismiss()
+      return;
+    }
+    this.evento.imagenQR = this.qrImage ? this.qrImage.result : '';
     if (this.evento._id === '') {
       this.eventoService.altaEvento(this.evento).subscribe((resp) => {
         loader.dismiss()
@@ -230,7 +254,7 @@ export class ModificarEventoPage {
           text: 'No',
           role: 'cancel',
           handler: () => {
-            
+
           }
         },
         {
@@ -262,11 +286,11 @@ export class ModificarEventoPage {
       }
     )
   }
-  goBack(){
+  goBack() {
     this.navCtrl.setRoot(ListaEventosPage)
-     
+
   }
-  mobile(): boolean{
+  mobile(): boolean {
     return this.platform.is('mobile')
   }
 
