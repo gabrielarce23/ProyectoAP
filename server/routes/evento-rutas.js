@@ -55,7 +55,7 @@ api.get('/eventos/home', async (req, res) => {
         let usuarioId = req.query.usuarioId
         let catId = req.query.catId
         let filtro = {}
-        let fechafin = new Date().setDate(new Date().getDate() + 15)
+        let fechafin = new Date().setDate(new Date().getDate() + 180)
         let fecha = { $gt: Date.now(), $lt: fechafin.valueOf() }
 
         filtro = { fecha }
