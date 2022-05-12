@@ -52,7 +52,7 @@ self.addEventListener("push", function (event) {
   };
   if (notification.data && notification.data.tipo === "evento") {
     notificationOptions.actions = [
-      { action: "voy", title: "👍🏽 Voy" },
+      { action: "voy", title: "💪🏽 Voy" },
       { action: "no_voy", title: "👎🏽 No voy" },
       { action: "duda", title: "🤔 Duda" },
     ];
