@@ -167,8 +167,8 @@ api.post('/eventos', async (req, res) => {
             let user = await Usuario.findOne({ _id: id })
             tituloNot = `Nuevo evento: ${evento.nombre}`
             bodyNot = `Hola ${user.nombre}! Has sido invitado a un nuevo evento. Por favor, consultá los detalles y confirmá asistencia. Gracias!`
-            tokenNot = invitado.tokens.find(t => t.access === 'auth') 
-            const dataNot = {tipo: 'evento', token: tokenNot? tokenNot.token : '' , idUsuario: i._id, idEvento: evento._id}
+            tokenNot = user.tokens.find(t => t.access === 'auth') 
+            const dataNot = {tipo: 'evento', token: tokenNot? tokenNot.token : '' , idUsuario: id, idEvento: evento._id}
             if (user.hasMobileToken()) {
                 enviarNotificacion(user, tituloNot, bodyNot, dataNot)
 
@@ -276,6 +276,53 @@ api.put('/eventos/:id/registrosDT', async (req, res) => {
     }
 })
 
+api.post('/eventos/:id/pendientes', async (req, res) => {
+    try {
+        let _id = req.params.id;
+        let evento = await Evento.findOne({ _id })
+        
+        if (!evento) {
+            res.status(404).send(new ApiResponse({}, 'No fue posible actualizar el evento'))
+            return
+        }
+            
+
+        let pendientes = [
+            ...evento.duda,
+            ...evento.invitados,
+        ]
+
+        for (let i of pendientes) {
+
+            invitado = await Usuario.findById(i._id)
+            tituloNot = `Pendiente confirmación: ${evento.nombre}`
+            bodyNot = `Hola ${invitado.nombre}! Aún no confirmaste a un evento que fuiste invitado, consultá los detalles y confirmá asistencia. Gracias!`
+            tokenNot = invitado.tokens.find(t => t.access === 'auth') 
+            const dataNot = {tipo: 'evento', token: tokenNot? tokenNot.token : '' , idUsuario: i._id, idEvento: evento._id}
+            if (invitado.hasMobileToken()) {
+
+                enviarNotificacion(invitado, tituloNot, bodyNot, dataNot)
+
+            } else {
+
+                enviarCorreoNotificacion(invitado, tituloNot, bodyNot)
+                if (invitado.tokens.length > 1) {
+
+                    enviarNotificacion(invitado, tituloNot, bodyNot, dataNot)
+                }
+            }
+        }
+        
+
+        res.status(200).send(new ApiResponse(evento))
+
+    }
+    catch (e) {
+        res.status(400).send(new ApiResponse({}, "Ocurrió un error al intentar actualizar"))
+        console.log(e);
+    }
+})
+
 api.put('/eventos/:id', async (req, res) => {
     try {
         let _id = req.params.id;
@@ -325,17 +372,16 @@ api.put('/eventos/:id', async (req, res) => {
                 tituloNot = `Modificación de evento: ${evento.nombre}`
                 bodyNot = `Hola ${invitado.nombre}! Un evento al que fuiste invitado ha sido modificado, consultá los detalles y confirmá asistencia. Gracias!`
                 tokenNot = invitado.tokens.find(t => t.access === 'auth') 
-                const dataNot = {tipo: 'evento', token: tokenNot? tokenNot.token : '' , idUsuario: i._id, idEvento: evento._id}
                 if (invitado.hasMobileToken()) {
 
-                    enviarNotificacion(invitado, tituloNot, bodyNot, dataNot)
+                    enviarNotificacion(invitado, tituloNot, bodyNot)
 
                 } else {
 
                     enviarCorreoNotificacion(invitado, tituloNot, bodyNot)
                     if (invitado.tokens.length > 1) {
 
-                        enviarNotificacion(invitado, tituloNot, bodyNot, dataNot)
+                        enviarNotificacion(invitado, tituloNot, bodyNot)
                     }
                 }
             }
