@@ -69,8 +69,9 @@ export class HomePage {
 
   getSubtitulo(evento: Evento) {
     let date = new Date(evento.fecha)
-    let dia = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()
-    let mes = date.getMonth() >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)
+
+    let dia = ('00' + date.getDate()).slice(-2)
+    let mes = ('00' + (date.getMonth()+1)).slice(-2)
     let anio = date.getFullYear()
     let hora = date.getHours() >= 10 ? date.getHours() : '0' + date.getHours()
     let minutos = date.getMinutes() >= 10 ? date.getMinutes() : '0' + date.getMinutes()
@@ -79,12 +80,16 @@ export class HomePage {
   }
 
   get fechaCuota() {
-    let dia = new Date().getDate()
-    if (new Date().getMonth() > 10 && dia > this.categoria.diaVtoCuota) {
-      return `${this.categoria.diaVtoCuota}/${13 - this.categoria.cantidadCuotasAnuales}/${new Date().getFullYear() + 1}`
+    let ahora = new Date()
+    let dia = ahora.getDate()
+    if (
+      (ahora.getMonth() > 10 && dia > this.categoria.diaVtoCuota) ||
+      (ahora.getMonth() + 1 <= 12 - this.categoria.cantidadCuotasAnuales)
+      ) {
+      return ''
     }
-    let mes = dia > this.categoria.diaVtoCuota ? new Date().getMonth() + 2 : new Date().getMonth() + 1
-    return `${this.categoria.diaVtoCuota}/${mes}/${new Date().getFullYear()}`
+    let mes = dia > this.categoria.diaVtoCuota ? ahora.getMonth() + 2 : ahora.getMonth() + 1
+    return `${('00' + this.categoria.diaVtoCuota).slice(-2)}/${('00'+ mes).slice(-2)}/${ahora.getFullYear()}`
   }
 
   async obtenerEventos() {
