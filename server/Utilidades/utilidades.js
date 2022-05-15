@@ -202,7 +202,7 @@ const enviarCorreoNotificacion = async (usuario, asunto, cuerpo)=>{
     });
 }
 
-const enviarNotificacion = async (usuario, title, body, data) => {
+const enviarNotificacion = async (usuario, title, body) => {
     var headers = {
         'Content-Type': 'application/json',
         'Authorization': process.env.PUSHTOKEN
@@ -216,8 +216,7 @@ const enviarNotificacion = async (usuario, title, body, data) => {
             "data": {
                 "notification": {
                     "title": title,
-                    "body": body,
-                    "data": data
+                    "body": body
                 }
 
             }

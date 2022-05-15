@@ -40,17 +40,14 @@ api.post('/campeonato/evento', async (req, res) => {
 
         let tipoEvento = await TipoEvento.findOne({ nombre: "Partido Oficial" })
         evento.tipoEvento = tipoEvento
-        let categoria = await Categoria.findOne({ _id: categoriaId }).populate('dts')
-        .populate('delegados')
-        .populate('jugadores')
-        .populate('tesoreros')
+        let categoria = await Categoria.findOne({ _id: categoriaId })
         evento.categoria = categoria._id
 
         let invitados = [
-            ...categoria.delegados.filter(u => u.activo === true).map(u => u._id),
-            ...categoria.jugadores.filter(u => u.activo === true).map(u => u._id),
-            ...categoria.tesoreros.filter(u => u.activo === true).map(u => u._id),
-            ...categoria.dts.filter(u => u.activo === true).map(u => u._id)
+            ...categoria.delegados,
+            ...categoria.jugadores,
+            ...categoria.tesoreros,
+            ...categoria.dts
         ]
 
         evento.invitados = []
@@ -70,16 +67,13 @@ api.post('/campeonato/evento', async (req, res) => {
                 let user = await Usuario.findOne({ _id: invitado })
                 tituloNot = `Nuevo evento: ${evento.nombre}`
                 bodyNot = `Hola ${user.nombre}! Has sido invitado a un nuevo evento. Por favor, consultá los detalles y confirmá asistencia. Gracias!`
-                tokenNot = invitado.tokens.find(t => t.access === 'auth') 
-                const dataNot = {tipo: 'evento', token: tokenNot? tokenNot.token : '' , idUsuario: i._id, idEvento: evento._id}
-            
                 if (user.hasMobileToken()) {
 
-                    enviarNotificacion(user, tituloNot, bodyNot,dataNot)
+                    enviarNotificacion(user, tituloNot, bodyNot)
                 } else {
                     enviarCorreoNotificacion(user, tituloNot, bodyNot)
                     if(user.tokens.length > 1){
-                        enviarNotificacion(user, tituloNot, bodyNot, dataNot)
+                        enviarNotificacion(user, tituloNot, bodyNot)
                     }
                 }
 
