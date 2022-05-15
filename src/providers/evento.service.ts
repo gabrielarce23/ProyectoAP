@@ -46,6 +46,12 @@ export class EventoService {
         return this.http.put<any>(`${this.apiUrl}api/eventos/${evento._id}`,evento, { headers,params })
     }
 
+    notificarPendientes(idEvento: string): Observable<any>{
+        let headers: HttpHeaders = new HttpHeaders().set("Content-Type", "application/json")
+        headers = headers.set('x-auth', this.usuarioServ.token)
+        return this.http.post<any>(`${this.apiUrl}api/eventos/${idEvento}/pendientes`,{},{headers})
+    }
+
     getEvento(eventoId: string): Observable<any>{
         let headers: HttpHeaders = new HttpHeaders().set("Content-Type", "application/json")
         headers = headers.set('x-auth', this.usuarioServ.token)

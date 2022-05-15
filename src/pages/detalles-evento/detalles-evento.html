@@ -32,6 +32,9 @@
         <div class="spacer" style="width:300px;height:15px;" id="registro-spacer8"></div>
         <ion-item-divider color="light" id="registro-list-item-divider8">
           Datos Generales:
+          <button ion-button item-end class="btn-mostrar" type="button" (click)="notificarPendientes()" icon-only *ngIf="esDelegado()">
+            <ion-icon name="notifications" [ngStyle]="{'font-size': '1.3em'}" icon-right></ion-icon>
+          </button>
         </ion-item-divider>
         <ion-item>
           <ion-icon name="calendar"></ion-icon>

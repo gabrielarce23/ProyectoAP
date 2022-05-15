@@ -59,6 +59,23 @@ export class DetallesEventoPage {
     this.utilServ.abrirImagen(evento.imagenQR)
   }
 
+  async notificarPendientes() {
+    let loader = this.loader.create({
+      content: 'Cargando...',
+      spinner: 'circles'
+
+    })
+    loader.present()
+    try {
+      const response = await this.eventServ.notificarPendientes(this.evento._id).toPromise()
+      loader.dismiss()
+      this.utilServ.dispararAlert('Ok', "Se ha enviado notificación a pendientes")
+    } catch(err) {
+      loader.dismiss()
+      this.utilServ.dispararAlert('Error', "No se ha podido completar la solicitud")
+    }
+  }
+
   goBack() {
     this.navCtrl.setRoot(ListaEventosPage)
   }
@@ -161,6 +178,16 @@ export class DetallesEventoPage {
       console.log(err)
       this.utilServ.dispararAlert('Error', "No se ha podido completar la solicitud")
     })
+  }
+
+  esDelegado() {
+    let usuario: Usuario = this.usuServ.usuario
+    if (usuario.delegadoInstitucional) return true
+    for (let usu of this.evento.categoria.delegados) {
+      if (usu._id === usuario._id) {
+        return true
+      }
+    }
   }
   generoPDF() {
 
