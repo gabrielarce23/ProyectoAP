@@ -34,10 +34,10 @@ export class SaldoMovimientosCategoriaPage {
   conceptos: ConceptoCaja[] = [];
   listaConceptos: ConceptoCaja[] = [];
   tipo = Object.keys(Tipos).map(key => ({ 'id': key, 'value': Tipos[key] }));
-  fDesdeTxt: string = 'aaaa-mm-dd'
-  fHastaTxt: string = 'aaaa-mm-dd'
-  fechaD: number
-  fechaH: number
+  fDesdeTxt: string = this.fechaInicial
+  fHastaTxt: string = this.fechaFinal
+  fechaD: number = new Date().setMonth(new Date().getMonth() -1)
+  fechaH: number = Date.now()
   tipoSeleccionado: string = ''
   ingresos = ''
   egresos = ''
@@ -70,7 +70,7 @@ export class SaldoMovimientosCategoriaPage {
         this.listaConceptos = conc.data.conceptosCaja;
       }
 
-      this.cuentaServ.obtenerMovimientos(this.cuenta._id)
+      this.cuentaServ.filtrarMovimientos2(this.cuenta._id,[],this.fechaD, this.fechaH)
         .subscribe((resp) => {
           this.cuenta.movimientos = resp.data.movimientos;
           this.movimientos = resp.data.movimientos;
@@ -113,8 +113,8 @@ export class SaldoMovimientosCategoriaPage {
     loading.present();
     this.tipoSeleccionado = ''
     this.conceptos = [];
-    this.fDesdeTxt = 'aaaa-mm-dd'
-    this.fHastaTxt = 'aaaa-mm-dd'
+    this.fDesdeTxt = this.fechaInicial
+    this.fHastaTxt = this.fechaFinal
 
     this.cuentaServ.obtenerMovimientos(this.cuenta._id)
       .subscribe((resp) => {
@@ -223,6 +223,17 @@ export class SaldoMovimientosCategoriaPage {
 
   noHayFiltros(): boolean {
     return this.tipoSeleccionado === '' && this.conceptos.length === 0 && this.fDesdeTxt === 'aaaa-mm-dd' && this.fHastaTxt === 'aaaa-mm-dd';
+  }
+
+  get fechaInicial(): string {
+    const ahora = new Date();
+    return `${ahora.getFullYear()}-${('00' + ahora.getMonth()).slice(-2)}-${('00' + ahora.getDate()).slice(-2)}`
+  }
+
+
+  get fechaFinal(): string {
+    const ahora = new Date();
+    return `${ahora.getFullYear()}-${('00' + (ahora.getMonth() + 1)).slice(-2)}-${('00' + ahora.getDate()).slice(-2)}`
   }
 
 

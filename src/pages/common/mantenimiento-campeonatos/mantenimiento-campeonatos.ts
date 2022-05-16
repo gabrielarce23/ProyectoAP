@@ -51,11 +51,14 @@ export class MantenimientoCampeonatosPage {
         this.fechas = camp.fechas
       } else {
         if (this.categoria.campeonatos.length > 0) {
-          let datosCamp: any = await this.campServ.consultarCampeonatoActual(this.categoria).toPromise();
+          let datosCampObs: any = this.campServ.consultarCampeonatoActual(this.categoria);
 
-          if (datosCamp) {
-            this.campeonato = datosCamp.data.campeonato
-            this.fechas = this.campeonato.fechas
+          if (datosCampObs) {
+            const datosCamp = await datosCampObs.toPromise()
+            if(datosCamp) {
+              this.campeonato = datosCamp.data.campeonato
+              this.fechas = this.campeonato.fechas
+            }
           }
 
         }else{
