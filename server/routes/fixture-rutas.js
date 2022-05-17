@@ -70,7 +70,10 @@ api.post('/campeonato/evento', async (req, res) => {
                 let user = await Usuario.findOne({ _id: invitado })
                 tituloNot = `Nuevo evento: ${evento.nombre}`
                 bodyNot = `Hola ${user.nombre}! Has sido invitado a un nuevo evento. Por favor, consultá los detalles y confirmá asistencia. Gracias!`
-                tokenNot = invitado.tokens.find(t => t.access === 'auth') 
+                let tokenNot;
+                if(invitado.tokens) {
+                    tokenNot = invitado.tokens.find(t => t.access === 'auth') 
+                }
                 const dataNot = {tipo: 'evento', token: tokenNot? tokenNot.token : '' , idUsuario: i._id, idEvento: evento._id}
             
                 if (user.hasMobileToken()) {

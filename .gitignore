@@ -12,6 +12,7 @@ log.txt
 .vscode/
 npm-debug.log*
 
+
 .idea/
 .ionic/
 .sourcemaps/
@@ -36,3 +37,4 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 server/config/google.json
+server/config/config.json

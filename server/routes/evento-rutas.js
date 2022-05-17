@@ -167,7 +167,10 @@ api.post('/eventos', async (req, res) => {
             let user = await Usuario.findOne({ _id: id })
             tituloNot = `Nuevo evento: ${evento.nombre}`
             bodyNot = `Hola ${user.nombre}! Has sido invitado a un nuevo evento. Por favor, consultá los detalles y confirmá asistencia. Gracias!`
-            tokenNot = user.tokens.find(t => t.access === 'auth') 
+            let tokenNot;
+            if(user.tokens) {
+                tokenNot = user.tokens.find(t => t.access === 'auth') 
+            }
             const dataNot = {tipo: 'evento', token: tokenNot? tokenNot.token : '' , idUsuario: id, idEvento: evento._id}
             if (user.hasMobileToken()) {
                 enviarNotificacion(user, tituloNot, bodyNot, dataNot)
@@ -297,7 +300,10 @@ api.post('/eventos/:id/pendientes', async (req, res) => {
             invitado = await Usuario.findById(i._id)
             tituloNot = `Pendiente confirmación: ${evento.nombre}`
             bodyNot = `Hola ${invitado.nombre}! Aún no confirmaste a un evento que fuiste invitado, consultá los detalles y confirmá asistencia. Gracias!`
-            tokenNot = invitado.tokens.find(t => t.access === 'auth') 
+            let tokenNot;
+            if(invitado.tokens) {
+                tokenNot = invitado.tokens.find(t => t.access === 'auth') 
+            }
             const dataNot = {tipo: 'evento', token: tokenNot? tokenNot.token : '' , idUsuario: i._id, idEvento: evento._id}
             if (invitado.hasMobileToken()) {
 
@@ -371,7 +377,6 @@ api.put('/eventos/:id', async (req, res) => {
                 invitado = await Usuario.findById(i._id)
                 tituloNot = `Modificación de evento: ${evento.nombre}`
                 bodyNot = `Hola ${invitado.nombre}! Un evento al que fuiste invitado ha sido modificado, consultá los detalles y confirmá asistencia. Gracias!`
-                tokenNot = invitado.tokens.find(t => t.access === 'auth') 
                 if (invitado.hasMobileToken()) {
 
                     enviarNotificacion(invitado, tituloNot, bodyNot)
