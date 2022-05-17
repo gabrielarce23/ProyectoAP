@@ -233,10 +233,7 @@ api.post('/movimientos/:id', async (req, res) => {
         let cta = await Cuenta.findById(req.params.id);
         if (cta) {
             let movs = [...cta.movimientos]
-
-
-
-
+            movs.sort( (a,b) => a.fecha > b.fecha ? -1 : 1);
             if (req.body.conceptos) {
                 movs = movs.filter((mov) => {
                     return req.body.conceptos.includes(mov.concepto.toString())
