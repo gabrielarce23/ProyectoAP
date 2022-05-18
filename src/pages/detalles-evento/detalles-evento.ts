@@ -182,12 +182,7 @@ export class DetallesEventoPage {
 
   esDelegado() {
     let usuario: Usuario = this.usuServ.usuario
-    if (usuario.delegadoInstitucional) return true
-    for (let usu of this.evento.categoria.delegados) {
-      if (usu._id === usuario._id) {
-        return true
-      }
-    }
+    return !!usuario.delegadoInstitucional
   }
   generoPDF() {
 
