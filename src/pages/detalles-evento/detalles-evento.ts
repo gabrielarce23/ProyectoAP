@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 import { Evento } from '../../models/evento.models';
 import { Usuario } from '../../models/usuario.model';
+import { Categoria } from '../../models/categoria.models';
+import { CategoriaService } from '../../providers/categoria.service';
 
 
 /**
@@ -32,12 +34,16 @@ export class DetallesEventoPage {
   verNoVan: boolean = false
   verDuda: boolean = false
   usuario: Usuario = new Usuario()
+  categoria: Categoria = new Categoria()
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private loader: LoadingController, private usuServ: UsuarioService,
-    private utilServ: UtilsServiceProvider, private eventServ: EventoService, public modalCtrl: ModalController) {
+    
+    private utilServ: UtilsServiceProvider, private eventServ: EventoService, public modalCtrl: ModalController, 
+    private categoriaServ: CategoriaService,) {
     this.evento = this.navParams.get('evento')
+    this.categoria._id = this.usuServ.usuario.perfiles[0].categoria
   }
 
   async ionViewWillEnter() {
@@ -48,6 +54,10 @@ export class DetallesEventoPage {
       let resp: any = await this.eventServ.getEvento(this.evento._id).toPromise()
       if (resp) {
         this.evento = resp.data.evento
+      }
+      let dataUsuarios: any = await this.categoriaServ.obtenerCategoria(this.categoria._id).toPromise()
+      if (dataUsuarios) {
+        this.categoria = dataUsuarios.data.categoria
       }
     } catch (e) {
       console.log(e)
@@ -183,11 +193,12 @@ export class DetallesEventoPage {
   esDelegado() {
     let usuario: Usuario = this.usuServ.usuario
     if (usuario.delegadoInstitucional) return true
-    for (let usu of this.evento.categoria.delegados) {
+    for (let usu of this.categoria.delegados) {
       if (usu._id === usuario._id) {
         return true
       }
     }
+    return false
   }
   generoPDF() {
 
