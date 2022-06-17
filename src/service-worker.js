@@ -64,10 +64,11 @@ self.addEventListener("push", function (event) {
 });
 
 self.addEventListener("notificationclick", function (event) {
-
-  event.notification.close();
-
-  if (event.notification.data && event.notification.data.tipo === "evento") {
+  if (
+    event.notification.data &&
+    event.notification.data.tipo === "evento" &&
+    event.action !== ""
+  ) {
     const body = { usuario: { _id: event.notification.data.idUsuario } };
     if (event.action === "voy") {
       body.asiste = true;
@@ -86,10 +87,14 @@ self.addEventListener("notificationclick", function (event) {
         },
       }
     )
-      .then((response) => {})
-      .catch((error) => console.log(error));
+      .then((response) => {
+        event.notification.close();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   } else {
-    clients.openWindow(''+event.currentTarget.origin);
+    clients.openWindow("" + event.currentTarget.origin);
   }
 });
 
