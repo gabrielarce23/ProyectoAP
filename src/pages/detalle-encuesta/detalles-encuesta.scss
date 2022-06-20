@@ -1,0 +1,22 @@
+page-detalles-encuesta {
+    
+    .badge-container {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        min-height: 30px;
+    }
+
+    .label-ganador {
+        font-weight: 600;
+    }
+
+    .btn-mostrar{
+        background: transparent;
+        box-shadow: none;
+        color: black;
+    }
+
+}

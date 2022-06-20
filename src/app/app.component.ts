@@ -15,6 +15,7 @@ import { EventoService } from './../providers/evento.service';
 import { MenuService } from './../providers/menu.service';
 import { UsuarioService } from './../providers/usuario.service';
 import { UtilsServiceProvider } from './../providers/utils.service';
+import { EncuestaService } from '../providers/encuesta.service';
 
 
 
@@ -38,7 +39,7 @@ export class MyApp {
   @ViewChild(Nav) nav: NavController;
 
   constructor(private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private _app: App, private _ionicApp: IonicApp,
-    public usuarioServ: UsuarioService, public menuServ: MenuService, private eventServ: EventoService,
+    public usuarioServ: UsuarioService, public menuServ: MenuService, private eventServ: EventoService, private encuestaServ: EncuestaService,
     private fcmService: FirebaseMessagingProvider, private http: HttpClient, private _menu: MenuController, private utils: UtilsServiceProvider) {
 
     platform.ready().then(() => {
@@ -53,6 +54,7 @@ export class MyApp {
         this.utils.apiUrl = 'http://localhost:3000/'
         this.usuarioServ.apiUrl = this.utils.apiUrl
         this.eventServ.apiUrl = this.utils.apiUrl
+        this.encuestaServ.apiUrl = this.utils.apiUrl
       }
     });
 

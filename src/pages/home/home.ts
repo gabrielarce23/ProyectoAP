@@ -11,6 +11,9 @@ import { UsuarioService } from './../../providers/usuario.service';
 //import { AltaDeUsuarioPage } from '../Backoffice/alta-usuario';
 import { UtilsServiceProvider } from './../../providers/utils.service';
 import { QRIMAGE } from '../../providers/constant';
+import { Encuesta } from '../../models/encuesta.models';
+import { EncuestaService } from '../../providers/encuesta.service';
+import { DetallesEncuestaPage } from '../detalle-encuesta/detalles-encuesta';
 
 
 @Component({
@@ -21,6 +24,7 @@ export class HomePage {
 
   usuario: Usuario = new Usuario()
   eventos: Evento[] = []
+  encuestas: Encuesta[] = []
   categoria: Categoria = new Categoria()
   habilitoHome: boolean = false;
   cuenta: Cuenta = new Cuenta()
@@ -31,31 +35,31 @@ export class HomePage {
     private platform: Platform, public fmp: FirebaseMessagingProvider
     , private loader: LoadingController, private utilServ: UtilsServiceProvider,
     private userServ: UsuarioService, public util: UtilsServiceProvider, private catServ: CategoriaService
-    , private eventServ: EventoService, public modalCtrl: ModalController) {
-
+    , private eventServ: EventoService, private encuestaServ: EncuestaService, public modalCtrl: ModalController) {
   }
   async ionViewWillEnter() {
-    try {
-
-      if (this.userServ.usuario && this.userServ.usuario.perfiles.length === 1) {
-        this.usuario = this.userServ.usuario
-        let resp: any = await this.catServ.obtenerCategoria(this.usuario.perfiles[0].categoria).toPromise()
-        if (resp) {
-
-          this.categoria = resp.data.categoria
-          this.obtenerEventos()
-          let resp2 = await this.userServ.getCuenta(this.usuario._id).toPromise()
-          if (resp2) {
-            this.cuenta = resp2.data.cuenta
-            this.habilitoHome = true;
-            this.mostrarSaldo = this.usuario.categoriacuota.toString() === this.usuario.perfiles[0].categoria
-          }
-        }
-      }
-    } catch (e) {
-      console.log(e)
-    }
-
+     try {
+ 
+       if (this.userServ.usuario && this.userServ.usuario.perfiles.length === 1) {
+         this.usuario = this.userServ.usuario
+         let resp: any = await this.catServ.obtenerCategoria(this.usuario.perfiles[0].categoria).toPromise()
+         if (resp) {
+ 
+           this.categoria = resp.data.categoria
+           this.obtenerEventos()
+           this.obtenerEncuestas()
+           let resp2 = await this.userServ.getCuenta(this.usuario._id).toPromise()
+           if (resp2) {
+             this.cuenta = resp2.data.cuenta
+             this.habilitoHome = true;
+             this.mostrarSaldo = this.usuario.categoriacuota.toString() === this.usuario.perfiles[0].categoria
+           }
+         }
+       }
+     } catch (e) {
+       console.log(e)
+     }
+ 
 
 
   }
@@ -64,14 +68,14 @@ export class HomePage {
     /* let modal = this.modalCtrl.create(ModalPage, { imagenQR: evento.imagenQR });
     modal.present(); */
 
-    this.utilServ.abrirImagen(evento.imagenQR+'')
+    this.utilServ.abrirImagen(evento.imagenQR + '')
   }
 
   getSubtitulo(evento: Evento) {
     let date = new Date(evento.fecha)
 
     let dia = ('00' + date.getDate()).slice(-2)
-    let mes = ('00' + (date.getMonth()+1)).slice(-2)
+    let mes = ('00' + (date.getMonth() + 1)).slice(-2)
     let anio = date.getFullYear()
     let hora = date.getHours() >= 10 ? date.getHours() : '0' + date.getHours()
     let minutos = date.getMinutes() >= 10 ? date.getMinutes() : '0' + date.getMinutes()
@@ -85,11 +89,11 @@ export class HomePage {
     if (
       (ahora.getMonth() > 10 && dia > this.categoria.diaVtoCuota) ||
       (ahora.getMonth() + 1 <= 12 - this.categoria.cantidadCuotasAnuales)
-      ) {
+    ) {
       return ''
     }
     let mes = dia > this.categoria.diaVtoCuota ? ahora.getMonth() + 2 : ahora.getMonth() + 1
-    return `${('00' + this.categoria.diaVtoCuota).slice(-2)}/${('00'+ mes).slice(-2)}/${ahora.getFullYear()}`
+    return `${('00' + this.categoria.diaVtoCuota).slice(-2)}/${('00' + mes).slice(-2)}/${ahora.getFullYear()}`
   }
 
   async obtenerEventos() {
@@ -99,6 +103,20 @@ export class HomePage {
       let resp = await this.eventServ.obtenerEventosHome(this.usuario._id, this.categoria._id).toPromise()
       if (resp) {
         this.eventos = resp.data.eventos
+
+      }
+
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  async obtenerEncuestas() {
+    try {
+
+
+      let resp = await this.encuestaServ.obtenerEncuestas().toPromise()
+      if (resp) {
+        this.encuestas = resp.data.encuestas
 
       }
 
@@ -142,6 +160,21 @@ export class HomePage {
 
   detalles(evento: Evento) {
     this.navCtrl.push(DetallesEventoPage, { evento })
+  }
+
+  esVeedor(encuesta: Encuesta) {
+    return !!encuesta.veedores.find(v => v === this.usuario._id)
+  }
+  estaHabilitado(encuesta: Encuesta) {
+    return !!encuesta.habilitados.find(v => v === this.usuario._id)
+  }
+
+  irAVotar(encuesta: Encuesta) {
+    this.navCtrl.push(DetallesEncuestaPage, { encuesta, modo: 'voto' })
+  }
+
+  verResultados(encuesta: Encuesta) {
+    this.navCtrl.push(DetallesEncuestaPage, { encuesta, modo: 'resultados' })
   }
 
 
