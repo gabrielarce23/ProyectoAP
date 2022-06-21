@@ -47,5 +47,35 @@ page-home{
             font-weight: 700;
         }
     }
+
+    .card-encuesta {
+        background: #050e61;
+        border-radius: 5px;
+
+        .card-content {
+            padding-top: 19px;
+        }
+
+        h2 {
+            font-weight: 600;
+            color: white;
+        }
+        p,span {
+            color: white;
+            margin-bottom: 0;
+        }
+
+        button {
+            margin-top: 5px;
+            float: right;
+        }
+        
+        .icon {
+            color: white;
+        }
+        
+    }
 }
+
+
 

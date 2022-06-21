@@ -20,6 +20,7 @@ import { DetalleFechaPage } from '../pages/detalle-fecha/detalle-fecha';
 import { DetalleMovimientoPage } from '../pages/detalle-movimiento/detalle-movimiento';
 import { DetallePagoPage } from '../pages/detalle-pago/detalle-pago';
 import { DetallesEventoPage } from '../pages/detalles-evento/detalles-evento';
+import { DetallesEncuestaPage } from '../pages/detalle-encuesta/detalles-encuesta';
 import { HomePage } from '../pages/home/home';
 import { ListaCategoriasPage } from '../pages/lista-categorias/lista-categorias';
 import { ListaEventosPage } from '../pages/lista-eventos/lista-eventos';
@@ -27,6 +28,7 @@ import { ModificacionPeriflesPage } from '../pages/modificacion-perifles/modific
 import { PagosPendientesPage } from '../pages/pagos-pendientes/pagos-pendientes';
 import { PlaceHolderPage } from '../pages/place-holder/place-holder';
 import { SaldosJugadoresPage } from '../pages/saldos-jugadores/saldos-jugadores';
+import { EncuestaService } from '../providers/encuesta.service';
 import { EventoService } from '../providers/evento.service';
 import { FirebaseMessagingProvider } from '../providers/firebase-messaging';
 import { UtilsServiceProvider } from '../providers/utils.service';
@@ -87,6 +89,7 @@ import { MyApp } from './app.component';
     ListaEventosPage,
     ModificarEventoPage,
     DetallesEventoPage,
+    DetallesEncuestaPage,
     DetalleFechaPage,
     ModificacionDatosPage,
     ConsultaModificacionDatosPage,
@@ -139,6 +142,7 @@ import { MyApp } from './app.component';
     ListaEventosPage,
     ModificarEventoPage,
     DetallesEventoPage,
+    DetallesEncuestaPage,
     DetalleFechaPage,
     ModificacionDatosPage,
     ConsultaModificacionDatosPage,
@@ -169,6 +173,7 @@ import { MyApp } from './app.component';
     MenuService,
     CampeonatoService,
     EventoService,
+    EncuestaService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
