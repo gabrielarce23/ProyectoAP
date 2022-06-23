@@ -19,28 +19,41 @@
       <ion-col col-xl-6>
         <div id="registro-markdown6" class="show-list-numbers-and-dots">
           <p class="title">
-            1. Reglas de votación: <a target="_blank" [href]="encuesta.extraInfo">Link</a>
+            1. Reglas de votación:
+            <a target="_blank" [href]="encuesta.extraInfo">Link</a>
           </p>
           <ng-container *ngIf="opcionesLinkeables.length > 0">
-
             <p class="title">
               2. Presioná en las opciones para ver en detalle cada una:
             </p>
             <div class="badge-container">
-              
-              <button ion-button clear *ngFor="let opcion of opcionesLinkeables" item-end (click)="abrirLink($event, opcion.link)"
-              >{{opcion.nombre}}</button>
-              
+              <a target="_blank" [href]="opcion.link" *ngFor="let opcion of opcionesLinkeables">
+                <button
+                  ion-button
+                  clear
+                >
+                  {{opcion.nombre}}
+                </button>
+              </a>
             </div>
           </ng-container>
         </div>
-        <hr/>
+        <hr />
         <p class="title" style="margin: 30px 0">
-          {{modo === 'voto' ? '3. Ahora seleccióná una opción y confirmá tu voto con el botón "Votar" al final de la pantalla.': 'Resultados:'}}
+          {{modo === 'voto' ? '3. Ahora seleccióná una opción y confirmá tu voto
+          con el botón "Votar" al final de la pantalla.': 'Resultados:'}}
         </p>
         <ion-item-divider color="light" id="registro-list-item-divider8">
           {{encuesta.nombre}}
-          <button *ngIf="modo === 'resultados'" ion-button item-end class="btn-mostrar" type="button" (click)="refrescarResultados()" icon-only >
+          <button
+            *ngIf="modo === 'resultados'"
+            ion-button
+            item-end
+            class="btn-mostrar"
+            type="button"
+            (click)="refrescarResultados()"
+            icon-only
+          >
             <ion-icon name="refresh" icon-right></ion-icon>
           </button>
         </ion-item-divider>
@@ -53,19 +66,20 @@
             <ion-radio [value]="opcion._id" name="voto"></ion-radio>
           </ion-item>
         </ion-list>
-        <ng-container  *ngIf="modo === 'resultados'">
+        <ng-container *ngIf="modo === 'resultados'">
           <ion-list>
             <ion-item *ngFor="let opcion of encuesta.opciones">
               <ion-avatar item-start>
                 <img [src]="'assets/imgs/logos/' + opcion.imagen" />
               </ion-avatar>
-              <ion-label [class]="opcion._id === resultados.ganador ? 'label-ganador': 'lable-no-ganador'">{{labelResultado(opcion)}}</ion-label>
+              <ion-label
+                [class]="opcion._id === resultados.ganador ? 'label-ganador': 'lable-no-ganador'"
+                >{{labelResultado(opcion)}}</ion-label
+              >
             </ion-item>
           </ion-list>
         </ng-container>
-        <p class="title" style="text-align: right;">
-          {{getLabelFooter()}}
-        </p>
+        <p class="title" style="text-align: right">{{getLabelFooter()}}</p>
       </ion-col>
     </ion-row>
     <div
