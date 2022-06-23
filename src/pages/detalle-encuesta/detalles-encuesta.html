@@ -18,15 +18,13 @@
     <ion-row justify-content-center>
       <ion-col col-xl-6>
         <div id="registro-markdown6" class="show-list-numbers-and-dots">
-          <p>
-            Se presentan las opciones elegidas para la encuesta. Se debe elegir
-            una de ellas y presionar el bótón Confirmar. Se podrá cambiar el
-            voto mientras la encuesta esté abierta.
+          <p class="title">
+            1. Reglas de votación: <a target="_blank" [href]="encuesta.extraInfo">Link</a>
           </p>
           <ng-container *ngIf="opcionesLinkeables.length > 0">
 
             <p class="title">
-              Presioná en las opciones para ver en detalle cada una:
+              2. Presioná en las opciones para ver en detalle cada una:
             </p>
             <div class="badge-container">
               
@@ -38,7 +36,7 @@
         </div>
         <hr/>
         <p class="title" style="margin: 30px 0">
-          {{modo === 'voto' ? 'Ahora seleccióná una opción y confirmá tu voto.': 'Resultados:'}}
+          {{modo === 'voto' ? '3. Ahora seleccióná una opción y confirmá tu voto con el botón "Votar" al final de la pantalla.': 'Resultados:'}}
         </p>
         <ion-item-divider color="light" id="registro-list-item-divider8">
           {{encuesta.nombre}}
@@ -49,7 +47,7 @@
         <ion-list radio-group [(ngModel)]="voto" *ngIf="modo === 'voto' ">
           <ion-item *ngFor="let opcion of encuesta.opciones">
             <ion-avatar item-start>
-              <img [src]="'assets/imgs/' + opcion.imagen" />
+              <img [src]="'assets/imgs/logos/' + opcion.imagen" />
             </ion-avatar>
             <ion-label>{{opcion.nombre}} </ion-label>
             <ion-radio [value]="opcion._id" name="voto"></ion-radio>
@@ -59,7 +57,7 @@
           <ion-list>
             <ion-item *ngFor="let opcion of encuesta.opciones">
               <ion-avatar item-start>
-                <img [src]="'assets/imgs/' + opcion.imagen" />
+                <img [src]="'assets/imgs/logos/' + opcion.imagen" />
               </ion-avatar>
               <ion-label [class]="opcion._id === resultados.ganador ? 'label-ganador': 'lable-no-ganador'">{{labelResultado(opcion)}}</ion-label>
             </ion-item>

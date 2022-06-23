@@ -88,8 +88,8 @@ export class DetallesEncuestaPage {
 
   }
 
-  abrirLink(link: string) {
-    window.open('https://sites.google.com/view/cei-app/', '_system')
+  abrirLink(event, link: string) {
+    window.open(link, '_system')
   }
 
 
