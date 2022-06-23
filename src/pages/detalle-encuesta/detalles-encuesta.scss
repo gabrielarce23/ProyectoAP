@@ -4,7 +4,7 @@ page-detalles-encuesta {
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;
-        justify-content: flex-start;
+        justify-content: space-evenly;
         align-items: center;
         min-height: 30px;
     }

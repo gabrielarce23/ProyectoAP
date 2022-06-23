@@ -9,4 +9,5 @@ export class Encuesta {
     veedores: string[] = [];
     habilitados: string[] = [];
     votos: {opcion: string, usuario: Usuario} [] = []
+    voto?: any
 }

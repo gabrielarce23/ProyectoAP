@@ -39,6 +39,7 @@ export class DetallesEncuestaPage {
     this.encuesta = this.navParams.get('encuesta')
     this.modo = this.navParams.get('modo');
     this.opcionesLinkeables = this.encuesta.opciones.filter(o => !!o.link)
+    this.voto = this.encuesta.voto ? this.encuesta.voto.opcion : undefined
   }
 
   async ionViewWillEnter() {
@@ -149,6 +150,20 @@ export class DetallesEncuestaPage {
     } catch (e) {
       loader.dismiss()
       console.log(e)
+    }
+  }
+
+  getLabelFooter() {
+    
+    if(this.modo === 'voto') {
+      if(this.encuesta.voto) {
+        return `Opción elegida anteriormente: ${this.encuesta.opciones.find(o => o._id === this.encuesta.voto.opcion).nombre}`
+      } else {
+        return ''
+      }
+    } else {
+      const porcentaje = (this.resultados.totalVotos/this.encuesta.habilitados.length) * 100
+      return `Votos: ${this.resultados.totalVotos} de ${this.encuesta.habilitados.length} habilitados (${porcentaje.toFixed(1)} %)`
     }
   }
 

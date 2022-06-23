@@ -166,7 +166,7 @@ export class HomePage {
     return !!encuesta.veedores.find(v => v === this.usuario._id)
   }
   estaHabilitado(encuesta: Encuesta) {
-    return !!encuesta.habilitados.find(v => v === this.usuario._id)
+    return !!encuesta.habilitados.find(v => v === this.usuario._id) && encuesta.activa
   }
 
   irAVotar(encuesta: Encuesta) {

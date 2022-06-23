@@ -18,14 +18,14 @@
     <ion-row justify-content-center>
       <ion-col col-xl-6>
         <div id="registro-markdown6" class="show-list-numbers-and-dots">
-          <p class="title">
+          <p>
             Se presentan las opciones elegidas para la encuesta. Se debe elegir
             una de ellas y presionar el bótón Confirmar. Se podrá cambiar el
             voto mientras la encuesta esté abierta.
           </p>
           <ng-container *ngIf="opcionesLinkeables.length > 0">
 
-            <p>
+            <p class="title">
               Presioná en las opciones para ver en detalle cada una:
             </p>
             <div class="badge-container">
@@ -36,11 +36,10 @@
             </div>
           </ng-container>
         </div>
-        <div
-          class="spacer"
-          style="width: 300px; height: 15px"
-          id="registro-spacer8"
-        ></div>
+        <hr/>
+        <p class="title" style="margin: 30px 0">
+          {{modo === 'voto' ? 'Ahora seleccióná una opción y confirmá tu voto.': 'Resultados:'}}
+        </p>
         <ion-item-divider color="light" id="registro-list-item-divider8">
           {{encuesta.nombre}}
           <button *ngIf="modo === 'resultados'" ion-button item-end class="btn-mostrar" type="button" (click)="refrescarResultados()" icon-only >
@@ -56,14 +55,19 @@
             <ion-radio [value]="opcion._id" name="voto"></ion-radio>
           </ion-item>
         </ion-list>
-        <ion-list *ngIf="modo === 'resultados' ">
-          <ion-item *ngFor="let opcion of encuesta.opciones">
-            <ion-avatar item-start>
-              <img [src]="'assets/imgs/' + opcion.imagen" />
-            </ion-avatar>
-            <ion-label [class]="opcion._id === resultados.ganador ? 'label-ganador': 'lable-no-ganador'">{{labelResultado(opcion)}}</ion-label>
-          </ion-item>
-        </ion-list>
+        <ng-container  *ngIf="modo === 'resultados'">
+          <ion-list>
+            <ion-item *ngFor="let opcion of encuesta.opciones">
+              <ion-avatar item-start>
+                <img [src]="'assets/imgs/' + opcion.imagen" />
+              </ion-avatar>
+              <ion-label [class]="opcion._id === resultados.ganador ? 'label-ganador': 'lable-no-ganador'">{{labelResultado(opcion)}}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ng-container>
+        <p class="title" style="text-align: right;">
+          {{getLabelFooter()}}
+        </p>
       </ion-col>
     </ion-row>
     <div
