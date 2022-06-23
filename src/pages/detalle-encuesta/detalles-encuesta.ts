@@ -125,6 +125,8 @@ export class DetallesEncuestaPage {
       if (this.resultados.mapaResultados[opcion] > maximoVotos) {
         maximoVotos = this.resultados.mapaResultados[opcion]
         ganador = opcion
+      } else if (this.resultados.mapaResultados[opcion] === maximoVotos) {
+        ganador = ''
       }
     }
 
