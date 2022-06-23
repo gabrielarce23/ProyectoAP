@@ -89,7 +89,7 @@ export class DetallesEncuestaPage {
   }
 
   abrirLink(event, link: string) {
-    window.open(link, '_system')
+    window.open(link, '_blank')
   }
 
 
