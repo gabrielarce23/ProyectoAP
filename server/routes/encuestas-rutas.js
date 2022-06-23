@@ -9,7 +9,10 @@ api.get('/encuestas', async (req, res) => {
 
     try {
         const userId = req.usuarioRequest._id
-        let encuestas = await Encuesta.find({$or:[{"activa": true},{"veedores":{$in: [ObjectID(userId)]}}]})
+        const esVeedor = {"veedores":{$in: [ObjectID(userId)]}};
+        const estaHabilitadoYEstaActiva = {$and: [{"habilitados":{$in: [ObjectID(userId)]}},  {"activa": true}]}
+
+        let encuestas = await Encuesta.find({$or:[esVeedor, estaHabilitadoYEstaActiva]})
         
         const encuestasData = encuestas.map(e => {
             const {nombre, habilitados, veedores, activa, limite, _id, opciones, extraInfo} = e
