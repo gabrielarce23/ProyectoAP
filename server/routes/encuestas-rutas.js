@@ -3,22 +3,18 @@ var api = express.Router();
 const _ = require('lodash')
 const { ApiResponse } = require('../models/api-response')
 const { Encuesta } = require('../models/encuesta');
+const { ObjectID } = require('mongodb')
 
 api.get('/encuestas', async (req, res) => {
 
     try {
-
-        let encuestas = await Encuesta.find({activa: true})
         const userId = req.usuarioRequest._id
-        encuestas = encuestas.filter( enc => {
-            const esVeedor = !! enc.veedores.find(v => v.toString() === userId.toString());
-            const estaHablitado = !! enc.habilitados.find(h => h.toString() === userId.toString());
-            return esVeedor || estaHablitado;
-        })
-
+        let encuestas = await Encuesta.find({$or:[{"habilitados":{$in: [ObjectID(userId)]}},{"veedores":{$in: [ObjectID(userId)]}}]})
+        
         const encuestasData = encuestas.map(e => {
             const {nombre, habilitados, veedores, activa, limite, _id, opciones, extraInfo} = e
-            return {nombre, habilitados, veedores, activa, limite, _id, opciones, extraInfo}
+            const voto = e.votos.find(voto => voto.usuario._id.toString() === userId.toString()) 
+            return {nombre, habilitados, veedores, activa, limite, _id, opciones, extraInfo, voto}
         })
         
         res.status(200).send(new ApiResponse({ encuestas: encuestasData }))
@@ -34,8 +30,8 @@ api.get('/encuestas/:id/voto', async (req, res) => {
         let _id = req.params.id;
         let encuesta = await Encuesta.findOne({ _id })
 
-        if(!encuesta || !encuesta.activa) {
-            return res.status(404).send(new ApiResponse({}, "No existe encuesta activa con ese id"))
+        if(!encuesta) {
+            return res.status(404).send(new ApiResponse({}, "No existe encuesta con ese id"))
         }
         
         let esVeedor = !!encuesta.veedores.find(u => u.toString() === u._id.toString())
