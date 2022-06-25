@@ -89,12 +89,6 @@ export class DetallesEncuestaPage {
     })
 
   }
-
-  abrirLink(event, link: string) {
-    window.open(link, '_system')
-  }
-
-
   goBack() {
     this.navCtrl.setRoot(HomePage)
   }
