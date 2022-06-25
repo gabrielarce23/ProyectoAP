@@ -30,6 +30,8 @@ export class DetallesEncuestaPage {
   opcionesLinkeables: any[] = []
   modo: string = '';
   resultados: { totalVotos: number, mapaResultados: any, ganador: string } = { totalVotos: 0, mapaResultados: {}, ganador: '' };
+  pendientes: {nombre: string, categoria: string}[] = [];
+  btnPendientes: '+' | '-' = '+';
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -101,6 +103,15 @@ export class DetallesEncuestaPage {
     let resp: any = await this.encuestaServ.getVotos(this.encuesta._id).toPromise()
     if (resp) {
       this.procesarVotos(resp.data.votos)
+      const pendientes = resp.data.pendientes;
+      pendientes.sort((a,b) => {
+        if(a.categoria > b.categoria) {
+          return 1
+        } else {
+          return -1
+        }
+      })
+      this.pendientes = pendientes
     }
   }
 
@@ -169,6 +180,12 @@ export class DetallesEncuestaPage {
     }
   }
 
-
+  togglePendientes() {
+    if(this.btnPendientes === '+') {
+      this.btnPendientes = '-';
+    } else {
+      this.btnPendientes = '+'
+    }
+  }
 
 }

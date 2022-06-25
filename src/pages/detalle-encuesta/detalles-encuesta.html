@@ -63,9 +63,21 @@
             </ion-item>
           </ion-list>
         </ng-container>
-        <p class="title" style="text-align: right;">
-          {{getLabelFooter()}}
-        </p>
+        <p class="title" style="text-align: right">{{getLabelFooter()}}</p>
+        <ng-container *ngIf="modo === 'resultados'">
+          <ion-item-divider color="light">
+            Pendientes{{' ('+ pendientes.length + ')'}}
+            <button ion-button item-end class="btn-mostrar" type="button" (click)="togglePendientes()">{{btnPendientes}}</button>
+  
+          </ion-item-divider>
+          <ng-container *ngIf="btnPendientes === '-'">
+            <ion-item *ngFor="let pend of pendientes" fixed icon-end>
+  
+              {{pend.nombre + ' --- ' + pend.categoria}}
+  
+            </ion-item>
+          </ng-container>
+        </ng-container>
       </ion-col>
     </ion-row>
     <div

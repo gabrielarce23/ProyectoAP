@@ -31,7 +31,7 @@ api.get('/encuestas/:id/voto', async (req, res) => {
 
     try {
         let _id = req.params.id;
-        let encuesta = await Encuesta.findOne({ _id })
+        let encuesta = await Encuesta.findOne({ _id }).populate({path:'habilitados', populate: {path: 'categoriacuota'}})
 
         if(!encuesta) {
             return res.status(404).send(new ApiResponse({}, "No existe encuesta con ese id"))
@@ -42,7 +42,12 @@ api.get('/encuestas/:id/voto', async (req, res) => {
             return res.status(401).send(new ApiResponse({}, "No eres veedor para esta encuesta"))
         }
 
-        return res.status(200).send(new ApiResponse({votos: encuesta.votos.map(v => v.opcion)}))
+        const pendientes = encuesta.habilitados.filter(h =>{
+            const yaVoto = encuesta.votos.find(v => v.usuario.toString() === h._id.toString())
+            return !yaVoto
+        }).map(p => ({nombre: `${p.nombre} ${p.apellido}`, categoria: p.categoriacuota? p.categoriacuota.nombre : ''}))
+
+        return res.status(200).send(new ApiResponse({votos: encuesta.votos.map(v => v.opcion), pendientes}))
 
     } catch (e) {
         res.status(400).send(new ApiResponse({}, "No se pudo procesar el voto"))
