@@ -22,6 +22,7 @@ self.toolbox.precache([
   "./build/polyfills.js",
   "./assets/imgs/pitch.png",
   "./assets/imgs/logoxd.svg",
+  "./assets/new_logo/nuevo_logo_xd.png",
   "index.html",
   "manifest.json",
 ]);
@@ -46,9 +47,9 @@ self.addEventListener("push", function (event) {
   var notification = JSON.parse(data.data.notification);
 
   const notificationOptions = {
-    icon: "assets/imgs/cei_logo-224.png",
+    icon: "assets/new_logo/icon-512x512.png",
     body: notification.body,
-    badge: "assets/imgs/logoxd.png",
+    badge: "assets/new_logo/nuevo_logo_xd.png",
   };
   if (notification.data && notification.data.tipo === "evento") {
     notificationOptions.actions = [

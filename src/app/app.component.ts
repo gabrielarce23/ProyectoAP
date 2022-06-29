@@ -10,7 +10,7 @@ import { LoginPage } from '../pages/common/login/login';
 import { HomePage } from '../pages/home/home';
 import { FirebaseMessagingProvider } from '../providers/firebase-messaging';
 import { Usuario } from './../models/usuario.model';
-import { CEILOGO } from './../providers/constant';
+import { CEILOGONUEVO } from './../providers/constant';
 import { EventoService } from './../providers/evento.service';
 import { MenuService } from './../providers/menu.service';
 import { UsuarioService } from './../providers/usuario.service';
@@ -33,7 +33,7 @@ export class MyApp {
   mostrar: boolean = false;
   pageHistory: string[] = [];//to track page history
 
-  avatar: string = CEILOGO;
+  avatar: string = CEILOGONUEVO;
 
   roles: string[] = []
   @ViewChild(Nav) nav: NavController;
