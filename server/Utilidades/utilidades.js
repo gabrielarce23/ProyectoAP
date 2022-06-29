@@ -191,7 +191,7 @@ const enviarCorreoRecupero = async (usuario) => {
     else {
         ambiente = `[${process.env.AMBIENTE}] - `
     }
-    let url = process.env.URLREGISTRO + `${usuario.tokens[0].token}`
+    let url = process.env.URLRESET + `${usuario.tokens[0].token}`
     let html = `<h2>Hola! Recibimos una solicitud para recuperar tu password</h2>
                 <p>Ingresá a este link para completar el cambio <a href="${url}">Link</a> para completar registro:</p>
                 `
