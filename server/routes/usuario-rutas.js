@@ -217,6 +217,26 @@ api.put('/usuarios/password', async (req, res) => {
     }
 })
 
+api.post('/usuarios/password', async (req, res) => {
+    try {
+
+        let email = req.body.email
+
+        let usuario = await Usuario.findOne({email})
+
+        if (usuario) {
+            usuario.enviarCorreoRecupero()
+            res.send(new ApiResponse({ text: 'Solicitud correcta' }))
+        } else {
+            res.status(404).send(new ApiResponse(undefined, { error: 'No existe el usuario' }))
+        }
+    }
+    catch (e) {
+        console.log(e)
+        res.status(400).send(new ApiResponse(undefined, { error: 'Ha ocurrido un problema' }))
+    }
+})
+
 
 api.put('/usuarios/:id/push', async (req, res) => {
 

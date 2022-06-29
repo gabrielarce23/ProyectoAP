@@ -1,8 +1,25 @@
 var {Usuario} = require('./../models/usuario')
 
+const validEndpoints = [
+    {
+        method: '*',
+        url: '/usuarios/login'
+    },
+    {
+        method: 'POST',
+        url: '/usuarios/password'
+    }
+]
+
 var autenticacion = (req, res, next) => {
-    
-    if(req.url==='/usuarios/login'){
+
+    const valid = !!validEndpoints.find(e => {
+        const validMethod = e.method === '*' || e.method === req.method
+        const validUrl = e.url === req.url
+        return validMethod && validUrl
+    })
+
+    if(valid){
       
         next()
     }else{

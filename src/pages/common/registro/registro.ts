@@ -82,7 +82,6 @@ export class RegistroPage implements OnInit {
 
 
   onSubmit() {
-
     if (this.validoUsuario()) {
       this.usuario.activo = true;
   

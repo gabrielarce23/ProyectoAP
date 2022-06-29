@@ -167,6 +167,11 @@ export class UsuarioService {
         return this.http.put(`${this.apiUrl}api/usuarios/password`, data, { headers })
     }
 
+    public recuperoPassword(email: string): Observable<any>{
+        let headers: HttpHeaders = new HttpHeaders().set("Content-Type", "application/json")       
+        return this.http.post(`${this.apiUrl}api/usuarios/password`, {email}, { headers })
+    }
+
     seleccionarPerfil(perfil : Perfil){
         
         this.usuario.perfiles = [perfil]

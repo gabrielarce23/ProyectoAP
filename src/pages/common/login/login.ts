@@ -29,7 +29,6 @@ export class LoginPage {
 
 
   constructor(public navCtrl: NavController, public utils: UtilsServiceProvider, public navParams: NavParams, private usuarioServ: UsuarioService) {
-
   }
 
 
@@ -53,5 +52,22 @@ export class LoginPage {
 
 
   }
+  clickRecupero() {
+
+    this.usuarioServ.recuperoPassword(this.loginForm.value.usuario).toPromise().then((resp: Usuario) => {
+      if (resp) {
+        this.utils.dispararAlert('Correo enviado', `Revisa tu casilla para recuperar tu password.`)
+      } else {
+        this.utils.dispararAlert('Error', 'No existe usuario con ese correo')
+      }
+
+    }).catch((err) => {
+      console.log(err)
+      this.utils.dispararAlert('Error', 'No existe usuario con ese correo')
+
+    })
+    
+  }
 
 }
+

@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title text-center>CEI APP - Login</ion-title>
+    <ion-title text-center>CEI - Login</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -46,7 +46,13 @@
             <ion-icon name="key"></ion-icon>
             Ingresar</button>
         </ion-col>
-
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <ion-col col-xl-3>
+          <button ion-button outline block icon-start type="button" [disabled]="!(loginForm.controls.usuario && loginForm.controls.usuario.valid)" class="btn-recuperar" (click)="clickRecupero()">
+            <ion-icon name="mail"></ion-icon>
+            Recuperar Password</button>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </form>

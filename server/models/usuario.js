@@ -4,7 +4,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 const bcrypt = require('bcryptjs')
-var { enviarCorreoAlta } = require('../Utilidades/utilidades')
+var { enviarCorreoAlta, enviarCorreoRecupero } = require('../Utilidades/utilidades')
 const { Cuenta } = require('../models/cuenta')
 
 var UsuarioSchema = mongoose.Schema({
@@ -227,6 +227,10 @@ UsuarioSchema.pre('findOneAndUpdate', function (next) {
 UsuarioSchema.methods.enviarConfirmacionAlta = function () {
     var usuario = this;
     enviarCorreoAlta(usuario)
+}
+UsuarioSchema.methods.enviarCorreoRecupero = function () {
+    var usuario = this;
+    enviarCorreoRecupero(usuario)
 }
 UsuarioSchema.methods.hasMobileToken = function () {
     var usuario = this;
