@@ -112,8 +112,8 @@ export class MyApp {
     //Called after ngOnInit when the component's or directive's content has been initialized.
     //Add 'implements AfterContentInit' to the class.
     try {
-      let registro: boolean = window.location.hash.split('/').indexOf('registro') > 0
-      if (!registro) {
+      let deepLink: boolean = window.location.hash.split('/').indexOf('registro') > 0 || window.location.hash.split('/').indexOf('resetPassword') > 0
+      if (!deepLink) {
 
 
         this.usuarioServ.usuConectado.subscribe(async (usu: Usuario) => {

@@ -156,6 +156,60 @@ const enviarCorreoAlta = async (usuario) => {
     });
 }
 
+const enviarCorreoRecupero = async (usuario) => {
+
+    const oauth2Client = new OAuth2(
+        mailingCredentials.client_id,
+        mailingCredentials.secret_id, // Client Secret
+        'https://developers.google.com/oauthplayground' // Redirect URL
+    );
+
+    oauth2Client.setCredentials({
+        refresh_token: mailingCredentials.refresh_token
+    });
+    const tokens = await oauth2Client.refreshAccessToken()
+    const accessToken = tokens.credentials.access_token
+
+
+    var transporter = nodemailer.createTransport({
+        pool : true,
+        service: 'gmail',
+        auth: {
+            type: "OAuth2",
+            user: "appcei.2018@gmail.com",
+            clientId: mailingCredentials.client_id,
+            clientSecret: mailingCredentials.secret_id,
+            refreshToken: mailingCredentials.refresh_token,
+            accessToken: accessToken
+        }
+    });
+
+    let ambiente;
+    if (process.env.AMBIENTE === 'PROD') {
+        ambiente = ''
+    }
+    else {
+        ambiente = `[${process.env.AMBIENTE}] - `
+    }
+    let url = process.env.URLREGISTRO + `${usuario.tokens[0].token}`
+    let html = `<h2>Hola! Recibimos una solicitud para recuperar tu password</h2>
+                <p>Ingresá a este link para completar el cambio <a href="${url}">Link</a> para completar registro:</p>
+                `
+                
+    var mailOptions = {
+        from: 'CEI App <appcei.2018@gmail.com>',
+        to: usuario.email,
+        subject: `${ambiente}Reset password en CEIapp`,
+        html
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        }
+    });
+}
+
 const enviarCorreoNotificacion = async (usuario, asunto, cuerpo)=>{
     if(!usuario.notificacionesEmail){
         return
@@ -237,4 +291,4 @@ const enviarNotificacion = async (usuario, title, body, data) => {
 }
 
 
-module.exports = { validarTipo, validarId, enviarCorreoAlta, enviarNotificacion,enviarReporteBatch, enviarCorreoNotificacion };
+module.exports = { validarTipo, validarId, enviarCorreoAlta, enviarCorreoRecupero, enviarNotificacion,enviarReporteBatch, enviarCorreoNotificacion };
