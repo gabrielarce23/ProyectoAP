@@ -47,7 +47,7 @@ self.addEventListener("push", function (event) {
   var notification = JSON.parse(data.data.notification);
 
   const notificationOptions = {
-    icon: "assets/imgs/cei_logo-224.png",
+    icon: "assets/new_logo/icon-512x512.png",
     body: notification.body,
     badge: "assets/new_logo/nuevo_logo_xd.png",
   };
