@@ -44,7 +44,7 @@
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.0.2",
     "lodash": "^4.17.11",
-    "moment": "^2.23.0",
+    "moment": "^2.29.4",
     "mongoose": "^5.3.6",
     "mongoose-unique-validator": "^2.0.2",
     "node-cron": "^2.0.3",
