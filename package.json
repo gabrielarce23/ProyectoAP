@@ -34,7 +34,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "firebase": "^4.9.1",
     "googleapis": "^36.0.0",
     "ionic-angular": "3.9.2",
