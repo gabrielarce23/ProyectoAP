@@ -95,7 +95,7 @@ export class ListaEventosPage {
   }
 
   async cargarEventos(year: number, mes: number) {
-    let fechaInicio = new Date(year, mes, 0)
+    let fechaInicio = new Date(year, mes, 1)
     let fechaFin = new Date(year, mes + 1, 1)
     try {
       let resp: any = await this.eventoServ.obtenerEventos(fechaInicio.valueOf(), fechaFin.valueOf()).toPromise()
